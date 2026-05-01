@@ -1,0 +1,31 @@
+﻿# Dependencies
+node_modules/
+.next/
+.vscode/
+.idea/
+
+# Build outputs
+dist/
+build/
+*.log
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# MongoDB local data (IMPORTANT)
+MongoDB/
+data/
+
+# Jupyter notebooks (if any)
+.ipynb_checkpoints/
+*.ipynb
+
+# Temporary files
+*.tmp
+*.cache
