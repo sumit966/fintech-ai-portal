@@ -1,10 +1,10 @@
 ﻿# Dependencies
 node_modules/
-.next/
-.vscode/
-.idea/
+package-lock.json
+yarn.lock
 
 # Build outputs
+.next/
 dist/
 build/
 *.log
@@ -18,13 +18,13 @@ build/
 .DS_Store
 Thumbs.db
 
-# MongoDB local data (IMPORTANT)
+# IDE
+.vscode/
+.idea/
+
+# MongoDB local data
 MongoDB/
 data/
-
-# Jupyter notebooks (if any)
-.ipynb_checkpoints/
-*.ipynb
 
 # Temporary files
 *.tmp
