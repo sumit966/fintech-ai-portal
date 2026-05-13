@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
     if (!isLoggedIn && router.pathname !== '/login') {
       router.push('/login');
     }
-  }, [router.pathname]);
+  }, [router.pathname, router]);
   return <Component {...pageProps} />;
 }
 

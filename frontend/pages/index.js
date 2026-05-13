@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { 
   Server, Cpu, HardDrive, Activity, TrendingUp, 
@@ -38,7 +38,7 @@ export default function Home() {
         {/* Welcome Section */}
         <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-2xl p-6 border border-blue-500/30">
           <h1 className="text-2xl font-bold text-white">Welcome back, Sumit</h1>
-          <p className="text-gray-400 mt-1">Here's what's happening with your infrastructure today.</p>
+          <p className="text-gray-400 mt-1">Here&apos;s what's happening with your infrastructure today.</p>
           <div className="flex gap-4 mt-4">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
