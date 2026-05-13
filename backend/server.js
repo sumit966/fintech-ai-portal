@@ -5,7 +5,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ============= 29 EMPLOYEES (unchanged) =============
+// ============= 29 EMPLOYEES =============
 const employees = [
   { id: 1, name: 'Priya Sharma', role: 'COO', email: 'priya.sharma@fintech.com', city: 'Delhi', experience: 'experienced', salary: 280000, joinDate: '2025-03-01', department: 'Leadership', performance: 96, projectId: 2, projectName: 'RiskShield AI' },
   { id: 2, name: 'Rahul Verma', role: 'HR Manager', email: 'rahul.verma@fintech.com', city: 'Bangalore', experience: 'experienced', salary: 150000, joinDate: '2025-03-01', department: 'HR', performance: 92, projectId: null, projectName: 'Internal' },
@@ -38,40 +38,28 @@ const employees = [
   { id: 29, name: 'Ojasvi Rathore', role: 'Fresher Developer', email: 'ojasvi@fintech.com', city: 'Udaipur', experience: 'fresher', salary: 43000, joinDate: '2025-03-19', department: 'Engineering', performance: 77, projectId: 5, projectName: 'SecureNet' }
 ];
 
-// ============= INTERVIEWS: 200 past, 20 upcoming, 30 pending =============
+// ============= INTERVIEWS =============
 const pastInterviews = [];
-const selectedCount = 32;
-const totalPast = 200;
-
-// Generate 200 past interviews
-for (let i = 1; i <= totalPast; i++) {
-  const isSelected = i <= selectedCount;
-  const status = isSelected ? 'Selected' : 'Rejected';
-  const hrRound = isSelected ? 'Passed' : (Math.random() > 0.5 ? 'Passed' : 'Failed');
-  const techRound = isSelected ? 'Passed' : (Math.random() > 0.6 ? 'Passed' : 'Failed');
-  const finalResult = isSelected ? 'Selected' : 'Rejected';
-  const feedback = isSelected ? 'Good candidate, hired' : 'Not a fit at this time';
-  const date = `2025-${Math.floor(Math.random() * 12) + 1}-${Math.floor(Math.random() * 28) + 1}`;
-  const interviewer = i % 2 === 0 ? 'Rahul Verma' : 'Neha Gupta';
+for (let i = 1; i <= 200; i++) {
+  const isSelected = i <= 32;
   pastInterviews.push({
     id: i,
     candidateName: `Candidate ${i}`,
     role: ['Developer', 'Tester', 'DevOps', 'Data Scientist', 'Project Manager'][Math.floor(Math.random() * 5)],
-    date: date,
+    date: `2025-${Math.floor(Math.random() * 12) + 1}-${Math.floor(Math.random() * 28) + 1}`,
     type: 'past',
-    hrRound: hrRound,
-    technicalRound: techRound,
-    finalResult: finalResult,
-    interviewer: interviewer,
-    feedback: feedback
+    hrRound: isSelected ? 'Passed' : (Math.random() > 0.5 ? 'Passed' : 'Failed'),
+    technicalRound: isSelected ? 'Passed' : (Math.random() > 0.6 ? 'Passed' : 'Failed'),
+    finalResult: isSelected ? 'Selected' : 'Rejected',
+    interviewer: i % 2 === 0 ? 'Rahul Verma' : 'Neha Gupta',
+    feedback: isSelected ? 'Good candidate, hired' : 'Not a fit at this time'
   });
 }
 
-// Upcoming interviews (20)
 const upcomingInterviews = [];
 for (let i = 1; i <= 20; i++) {
   upcomingInterviews.push({
-    id: totalPast + i,
+    id: 200 + i,
     candidateName: `Upcoming Candidate ${i}`,
     role: ['Senior Developer', 'QA Engineer', 'DevOps Lead', 'AI Engineer', 'Frontend Lead'][Math.floor(Math.random() * 5)],
     date: `2026-04-${15 + i}`,
@@ -79,107 +67,37 @@ for (let i = 1; i <= 20; i++) {
     hrRound: 'Scheduled',
     technicalRound: 'Scheduled',
     finalResult: 'Pending',
-    interviewer: i % 2 === 0 ? 'Rahul Verma' : 'Neha Gupta',
-    feedback: ''
-  });
-}
-
-// Pending applications (30) - not yet interviewed
-const pendingApplications = [];
-for (let i = 1; i <= 30; i++) {
-  pendingApplications.push({
-    id: totalPast + 20 + i,
-    candidateName: `Pending App ${i}`,
-    role: ['Fresher Developer', 'Intern', 'Junior Tester', 'Associate DevOps'][Math.floor(Math.random() * 4)],
-    appliedDate: `2026-04-${Math.floor(Math.random() * 10) + 1}`,
-    status: 'Pending Review',
-    type: 'pending'
+    interviewer: i % 2 === 0 ? 'Rahul Verma' : 'Neha Gupta'
   });
 }
 
 const allInterviews = [...pastInterviews, ...upcomingInterviews];
 
-// ============= EXAMS (unchanged) =============
-const exams = [
-  { id: 1, name: 'JavaScript Fundamentals', date: '2025-06-15', type: 'past', totalMarks: 100, passingMarks: 60 },
-  { id: 2, name: 'React Advanced', date: '2025-07-20', type: 'past', totalMarks: 100, passingMarks: 65 },
-  { id: 3, name: 'Python Programming', date: '2025-08-10', type: 'past', totalMarks: 100, passingMarks: 60 },
-  { id: 4, name: 'SQL & Databases', date: '2025-09-05', type: 'past', totalMarks: 100, passingMarks: 65 },
-  { id: 5, name: 'Soft Skills Assessment', date: '2025-10-12', type: 'past', totalMarks: 100, passingMarks: 70 },
-  { id: 6, name: 'Cloud Computing (AWS)', date: '2026-05-20', type: 'upcoming', totalMarks: 100, passingMarks: 70 },
-  { id: 7, name: 'DevOps Practices', date: '2026-06-10', type: 'upcoming', totalMarks: 100, passingMarks: 65 },
-  { id: 8, name: 'Machine Learning Basics', date: '2026-06-25', type: 'upcoming', totalMarks: 100, passingMarks: 70 }
-];
-
-// Exam results for each employee (unchanged)
-const examResults = [];
-employees.forEach(emp => {
-  exams.filter(e => e.type === 'past').forEach(exam => {
-    const score = emp.experience === 'experienced' ? 70 + Math.floor(Math.random() * 25) : 55 + Math.floor(Math.random() * 35);
-    examResults.push({
-      id: examResults.length + 1,
-      employeeId: emp.id,
-      employeeName: emp.name,
-      examId: exam.id,
-      examName: exam.name,
-      date: exam.date,
-      score: score,
-      status: score >= exam.passingMarks ? 'PASS' : 'FAIL'
-    });
-  });
-});
-
-// ============= PROJECTS (unchanged) =============
+// ============= PROJECTS =============
 const projects = [
-  { id: 1, name: 'NeoPay Gateway', client: 'HDFC Bank', category: 'Finance', status: 'running', progress: 75, budget: '2.8 Cr', team: 12, startDate: '2025-04-01', endDate: '2026-06-30', tech: ['React', 'Node.js', 'MongoDB', 'Redis'], description: 'Digital payment gateway with UPI integration', roadmap: ['Phase 1: Analysis', 'Phase 2: Design', 'Phase 3: Development', 'Phase 4: Testing', 'Phase 5: Deployment'], deliverables: ['UPI Integration', 'Fraud Detection', 'Dashboard'], cpuUsage: 45, memoryUsage: 52, gpuUsage: 0 },
-  { id: 2, name: 'RiskShield AI', client: 'Axis Bank', category: 'Finance', status: 'running', progress: 45, budget: '2.5 Cr', team: 8, startDate: '2025-05-15', endDate: '2026-07-31', tech: ['Python', 'TensorFlow', 'FastAPI'], description: 'AI fraud detection', roadmap: ['Phase 1: Data Collection', 'Phase 2: Model Training', 'Phase 3: API', 'Phase 4: Integration'], deliverables: ['ML Model', 'API', 'Dashboard'], cpuUsage: 78, memoryUsage: 64, gpuUsage: 87 },
-  { id: 3, name: 'HealthCare Pro', client: 'Apollo Hospitals', category: 'Healthcare', status: 'running', progress: 60, budget: '3.0 Cr', team: 15, startDate: '2025-06-01', endDate: '2026-08-31', tech: ['Java', 'Spring Boot', 'Angular'], description: 'Hospital management system', roadmap: ['Phase 1: Patient Module', 'Phase 2: Billing', 'Phase 3: Pharmacy'], deliverables: ['Patient Portal', 'Billing System'], cpuUsage: 52, memoryUsage: 48, gpuUsage: 0 },
-  { id: 4, name: 'EcomPulse', client: 'Reliance Retail', category: 'E-commerce', status: 'running', progress: 85, budget: '2.6 Cr', team: 10, startDate: '2025-07-10', endDate: '2026-05-30', tech: ['MERN', 'GraphQL'], description: 'Analytics dashboard', roadmap: ['Phase 1: Pipeline', 'Phase 2: UI', 'Phase 3: Real-time'], deliverables: ['Dashboard', 'Mobile App'], cpuUsage: 34, memoryUsage: 41, gpuUsage: 0 },
-  { id: 5, name: 'SecureNet', client: 'Tata Consultancy Services', category: 'Cybersecurity', status: 'running', progress: 40, budget: '2.7 Cr', team: 9, startDate: '2025-08-01', endDate: '2026-09-15', tech: ['Go', 'Kubernetes'], description: 'Security monitoring', roadmap: ['Phase 1: Threat Detection', 'Phase 2: Monitoring', 'Phase 3: Alerting'], deliverables: ['Threat Detection', 'Dashboard'], cpuUsage: 62, memoryUsage: 55, gpuUsage: 45 },
-  { id: 6, name: 'InsureLink', client: 'Bajaj Allianz', category: 'Finance', status: 'running', progress: 55, budget: '2.9 Cr', team: 11, startDate: '2025-09-05', endDate: '2026-10-31', tech: ['.NET Core', 'Azure'], description: 'Insurance middleware', roadmap: ['Phase 1: Integration', 'Phase 2: Data Processing', 'Phase 3: API Gateway'], deliverables: ['Middleware API', 'Security Layer'], cpuUsage: 48, memoryUsage: 60, gpuUsage: 0 }
+  { id: 1, name: 'NeoPay Gateway', client: 'HDFC Bank', category: 'Finance', status: 'running', progress: 75, budget: '2.8 Cr', team: 12, startDate: '2025-04-01', endDate: '2026-06-30', tech: ['React', 'Node.js', 'MongoDB', 'Redis'], description: 'Digital payment gateway with UPI integration', cpuUsage: 45, memoryUsage: 52, gpuUsage: 0 },
+  { id: 2, name: 'RiskShield AI', client: 'Axis Bank', category: 'Finance', status: 'running', progress: 45, budget: '2.5 Cr', team: 8, startDate: '2025-05-15', endDate: '2026-07-31', tech: ['Python', 'TensorFlow', 'FastAPI'], description: 'AI-powered fraud detection', cpuUsage: 78, memoryUsage: 64, gpuUsage: 87 },
+  { id: 3, name: 'HealthCare Pro', client: 'Apollo Hospitals', category: 'Healthcare', status: 'running', progress: 60, budget: '3.0 Cr', team: 15, startDate: '2025-06-01', endDate: '2026-08-31', tech: ['Java', 'Spring Boot', 'Angular'], description: 'Hospital management system', cpuUsage: 52, memoryUsage: 48, gpuUsage: 0 },
+  { id: 4, name: 'EcomPulse', client: 'Reliance Retail', category: 'E-commerce', status: 'running', progress: 85, budget: '2.6 Cr', team: 10, startDate: '2025-07-10', endDate: '2026-05-30', tech: ['MERN', 'GraphQL'], description: 'Analytics dashboard', cpuUsage: 34, memoryUsage: 41, gpuUsage: 0 },
+  { id: 5, name: 'SecureNet', client: 'Tata Consultancy Services', category: 'Cybersecurity', status: 'running', progress: 40, budget: '2.7 Cr', team: 9, startDate: '2025-08-01', endDate: '2026-09-15', tech: ['Go', 'Kubernetes'], description: 'Security monitoring', cpuUsage: 62, memoryUsage: 55, gpuUsage: 45 },
+  { id: 6, name: 'InsureLink', client: 'Bajaj Allianz', category: 'Finance', status: 'running', progress: 55, budget: '2.9 Cr', team: 11, startDate: '2025-09-05', endDate: '2026-10-31', tech: ['.NET Core', 'Azure'], description: 'Insurance middleware', cpuUsage: 48, memoryUsage: 60, gpuUsage: 0 }
 ];
-
-// ============= PAYROLL (unchanged) =============
-const payroll = [];
-const months = [3,4,5,6,7,8,9,10,11,12,1,2,3,4];
-const years = [2025,2025,2025,2025,2025,2025,2025,2025,2025,2025,2026,2026,2026,2026];
-
-employees.forEach(emp => {
-  for (let i = 0; i < months.length; i++) {
-    const bonus = i === 0 ? emp.salary * 0.2 : (i === 10 ? emp.salary * 0.15 : 0);
-    const tax = emp.salary * 0.1;
-    payroll.push({
-      id: payroll.length + 1,
-      employeeId: emp.id,
-      employeeName: emp.name,
-      month: months[i],
-      year: years[i],
-      basicSalary: emp.salary,
-      hra: emp.salary * 0.4,
-      bonus: bonus,
-      taxDeduction: tax,
-      netSalary: emp.salary + (emp.salary * 0.4) + bonus - tax
-    });
-  }
-});
 
 // ============= API ROUTES =============
-app.get('/api/health', (req, res) => res.json({ status: 'OK' }));
+app.get('/api/health', (req, res) => res.json({ status: 'OK', message: 'Server is running', timestamp: new Date() }));
 app.get('/api/employees', (req, res) => res.json(employees));
 app.get('/api/employees/:id', (req, res) => res.json(employees.find(e => e.id === parseInt(req.params.id)) || {}));
 app.get('/api/projects', (req, res) => res.json(projects));
 app.get('/api/projects/:id', (req, res) => res.json(projects.find(p => p.id === parseInt(req.params.id)) || {}));
 app.get('/api/interviews', (req, res) => res.json(allInterviews));
-app.get('/api/pending-applications', (req, res) => res.json(pendingApplications));
-app.get('/api/exams', (req, res) => res.json(exams));
-app.get('/api/exam-results', (req, res) => res.json(examResults));
-app.get('/api/payroll', (req, res) => res.json(payroll));
-app.get('/api/payroll/:employeeId', (req, res) => res.json(payroll.filter(p => p.employeeId === parseInt(req.params.employeeId))));
+app.get('/api/exams', (req, res) => res.json([]));
+app.get('/api/exam-results', (req, res) => res.json([]));
+app.get('/api/payroll', (req, res) => res.json([]));
 
-const PORT = 5003;
-app.listen(PORT, () => {
-  console.log(`🚀 Server on port ${PORT}`);
+// Use PORT from environment variable (Render sets this to 10000)
+const PORT = process.env.PORT || 5003;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📊 Past interviews: ${pastInterviews.length} (Selected: ${pastInterviews.filter(i => i.finalResult === 'Selected').length})`);
   console.log(`📅 Upcoming interviews: ${upcomingInterviews.length}`);
-  console.log(`⏳ Pending applications: ${pendingApplications.length}`);
 });
