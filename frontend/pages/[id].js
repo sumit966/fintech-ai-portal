@@ -9,7 +9,11 @@ import {
   Layers, Zap, Shield, Cloud, Coffee
 } from 'lucide-react';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
-import API_URL from '../../utils/api';
+
+// ============================================
+// FIXED: Hardcoded API URL instead of import
+// ============================================
+const API_URL = 'https://fintech-ai-portal.onrender.com/api';
 
 export default function ProjectDetail() {
   const router = useRouter();
@@ -58,7 +62,10 @@ export default function ProjectDetail() {
     return (
       <Layout>
         <div className="flex items-center justify-center h-96">
-          <div className="text-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div><p className="mt-4 text-gray-400">Loading project...</p></div>
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+            <p className="mt-4 text-gray-400">Loading project...</p>
+          </div>
         </div>
       </Layout>
     );
@@ -101,7 +108,9 @@ export default function ProjectDetail() {
             <div className="text-right">
               <p className="text-3xl font-bold text-white">{project.progress}%</p>
               <p className="text-xs text-gray-400">Completion</p>
-              <div className="w-32 h-1.5 bg-white/10 rounded-full mt-2"><div className="h-full bg-blue-500 rounded-full" style={{ width: `${project.progress}%` }}></div></div>
+              <div className="w-32 h-1.5 bg-white/10 rounded-full mt-2">
+                <div className="h-full bg-blue-500 rounded-full" style={{ width: `${project.progress}%` }}></div>
+              </div>
             </div>
           </div>
         </div>
@@ -109,12 +118,18 @@ export default function ProjectDetail() {
         {/* Tabs */}
         <div className="flex flex-wrap gap-2 border-b border-gray-700 pb-2">
           {['overview', 'resources', 'team', 'roadmap', 'faq'].map(tab => (
-            <button key={tab} onClick={() => setActiveTab(tab)} className={`px-4 py-2 rounded-lg transition-all duration-200 capitalize ${activeTab === tab ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}>
-              {tab === 'overview' && <BookOpen size={14} className="inline mr-1" />}
-              {tab === 'resources' && <Cpu size={14} className="inline mr-1" />}
-              {tab === 'team' && <Users size={14} className="inline mr-1" />}
-              {tab === 'roadmap' && <Activity size={14} className="inline mr-1" />}
-              {tab === 'faq' && <HelpCircle size={14} className="inline mr-1" />}
+            <button 
+              key={tab} 
+              onClick={() => setActiveTab(tab)} 
+              className={`px-4 py-2 rounded-lg transition-all duration-200 capitalize flex items-center gap-1 ${
+                activeTab === tab ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              {tab === 'overview' && <BookOpen size={14} />}
+              {tab === 'resources' && <Cpu size={14} />}
+              {tab === 'team' && <Users size={14} />}
+              {tab === 'roadmap' && <Activity size={14} />}
+              {tab === 'faq' && <HelpCircle size={14} />}
               {tab}
             </button>
           ))}
@@ -124,10 +139,22 @@ export default function ProjectDetail() {
         {activeTab === 'overview' && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700"><div className="flex items-center gap-2 text-gray-400 mb-1"><Calendar size={14} /> Timeline</div><p className="text-white font-semibold">{project.startDate} ? {project.endDate}</p></div>
-              <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700"><div className="flex items-center gap-2 text-gray-400 mb-1"><Users size={14} /> Team Size</div><p className="text-white font-semibold">{project.team} members</p></div>
-              <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700"><div className="flex items-center gap-2 text-gray-400 mb-1"><Layers size={14} /> Tech Stack</div><div className="flex flex-wrap gap-1 mt-1">{project.tech?.slice(0,3).map(t => <span key={t} className="text-xs text-blue-300">{t}</span>)}</div></div>
-              <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700"><div className="flex items-center gap-2 text-gray-400 mb-1"><DollarSign size={14} /> Budget</div><p className="text-white font-semibold">{project.budget}</p></div>
+              <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700">
+                <div className="flex items-center gap-2 text-gray-400 mb-1"><Calendar size={14} /> Timeline</div>
+                <p className="text-white font-semibold">{project.startDate} → {project.endDate}</p>
+              </div>
+              <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700">
+                <div className="flex items-center gap-2 text-gray-400 mb-1"><Users size={14} /> Team Size</div>
+                <p className="text-white font-semibold">{project.team} members</p>
+              </div>
+              <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700">
+                <div className="flex items-center gap-2 text-gray-400 mb-1"><Layers size={14} /> Tech Stack</div>
+                <div className="flex flex-wrap gap-1 mt-1">{project.tech?.slice(0,3).map(t => <span key={t} className="text-xs text-blue-300">{t}</span>)}</div>
+              </div>
+              <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700">
+                <div className="flex items-center gap-2 text-gray-400 mb-1"><DollarSign size={14} /> Budget</div>
+                <p className="text-white font-semibold">{project.budget}</p>
+              </div>
             </div>
             
             <div className="bg-gray-800/50 rounded-xl p-5 border border-gray-700">
@@ -138,9 +165,18 @@ export default function ProjectDetail() {
             <div className="bg-gray-800/50 rounded-xl p-5 border border-gray-700">
               <h3 className="text-white font-semibold mb-3 flex items-center gap-2"><Code size={16} /> Technology Stack</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div><h4 className="text-blue-400 text-sm mb-2">Languages</h4><div className="flex flex-wrap gap-2">{project.languages?.map(l => <span key={l} className="px-2 py-1 bg-blue-500/20 rounded-md text-xs">{l}</span>)}</div></div>
-                <div><h4 className="text-purple-400 text-sm mb-2">Frameworks</h4><div className="flex flex-wrap gap-2">{project.frameworks?.map(f => <span key={f} className="px-2 py-1 bg-purple-500/20 rounded-md text-xs">{f}</span>)}</div></div>
-                <div><h4 className="text-green-400 text-sm mb-2">Tools & Platforms</h4><div className="flex flex-wrap gap-2">{project.tools?.map(t => <span key={t} className="px-2 py-1 bg-green-500/20 rounded-md text-xs">{t}</span>)}</div></div>
+                <div>
+                  <h4 className="text-blue-400 text-sm mb-2">Languages</h4>
+                  <div className="flex flex-wrap gap-2">{project.languages?.map(l => <span key={l} className="px-2 py-1 bg-blue-500/20 rounded-md text-xs">{l}</span>)}</div>
+                </div>
+                <div>
+                  <h4 className="text-purple-400 text-sm mb-2">Frameworks</h4>
+                  <div className="flex flex-wrap gap-2">{project.frameworks?.map(f => <span key={f} className="px-2 py-1 bg-purple-500/20 rounded-md text-xs">{f}</span>)}</div>
+                </div>
+                <div>
+                  <h4 className="text-green-400 text-sm mb-2">Tools & Platforms</h4>
+                  <div className="flex flex-wrap gap-2">{project.tools?.map(t => <span key={t} className="px-2 py-1 bg-green-500/20 rounded-md text-xs">{t}</span>)}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -184,8 +220,13 @@ export default function ProjectDetail() {
               <div className="space-y-4">
                 {resourceData.filter(r => r.usage > 0).map(res => (
                   <div key={res.name}>
-                    <div className="flex justify-between text-sm mb-1"><span className="text-gray-400">{res.name}</span><span className="text-white font-mono">{res.usage}%</span></div>
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden"><div className="h-full rounded-full transition-all duration-500" style={{ width: `${res.usage}%`, backgroundColor: res.color }}></div></div>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="text-gray-400">{res.name}</span>
+                      <span className="text-white font-mono">{res.usage}%</span>
+                    </div>
+                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-full rounded-full transition-all duration-500" style={{ width: `${res.usage}%`, backgroundColor: res.color }}></div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -203,8 +244,16 @@ export default function ProjectDetail() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {employees.map(emp => (
                   <div key={emp.id} className="flex items-center justify-between p-3 bg-black/30 rounded-lg hover:bg-black/50 transition">
-                    <div><p className="text-white font-medium">{emp.name}</p><p className="text-xs text-gray-400">{emp.role}</p></div>
-                    <div className="flex items-center gap-2"><div className="w-16 h-1.5 bg-white/10 rounded-full"><div className="h-full bg-green-500 rounded-full" style={{ width: `${emp.performance}%` }}></div></div><span className="text-xs text-green-400">{emp.performance}%</span></div>
+                    <div>
+                      <p className="text-white font-medium">{emp.name}</p>
+                      <p className="text-xs text-gray-400">{emp.role}</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-16 h-1.5 bg-white/10 rounded-full">
+                        <div className="h-full bg-green-500 rounded-full" style={{ width: `${emp.performance}%` }}></div>
+                      </div>
+                      <span className="text-xs text-green-400">{emp.performance}%</span>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -220,13 +269,22 @@ export default function ProjectDetail() {
               {project.roadmap?.map((phase, idx) => (
                 <div key={idx} className="flex items-start gap-3 group">
                   <div className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-sm font-bold group-hover:scale-110 transition">{idx+1}</div>
-                  <div className="flex-1"><p className="text-white">{phase}</p><div className="h-1 w-full bg-white/5 rounded-full mt-2"><div className="h-full w-3/4 bg-blue-500/50 rounded-full"></div></div></div>
+                  <div className="flex-1">
+                    <p className="text-white">{phase}</p>
+                    <div className="h-1 w-full bg-white/5 rounded-full mt-2">
+                      <div className="h-full w-3/4 bg-blue-500/50 rounded-full"></div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
             <h3 className="text-white font-semibold mt-6 mb-3 flex items-center gap-2"><CheckCircle size={16} className="text-green-400" /> Deliverables</h3>
             <div className="flex flex-wrap gap-2">
-              {project.deliverables?.map((d, i) => <span key={i} className="px-3 py-1.5 bg-green-500/10 text-green-400 rounded-full text-sm flex items-center gap-1"><CheckCircle size={12} /> {d}</span>)}
+              {project.deliverables?.map((d, i) => (
+                <span key={i} className="px-3 py-1.5 bg-green-500/10 text-green-400 rounded-full text-sm flex items-center gap-1">
+                  <CheckCircle size={12} /> {d}
+                </span>
+              ))}
             </div>
           </div>
         )}
@@ -239,8 +297,12 @@ export default function ProjectDetail() {
               <div className="space-y-4">
                 {project.faq.map((item, idx) => (
                   <div key={idx} className="border-b border-gray-700 pb-3 last:border-0">
-                    <p className="text-white font-medium flex items-start gap-2"><span className="text-blue-400">?</span> {item.question}</p>
-                    <p className="text-gray-400 text-sm mt-1 pl-6"><span className="text-green-400">?</span> {item.answer}</p>
+                    <p className="text-white font-medium flex items-start gap-2">
+                      <span className="text-blue-400">Q:</span> {item.question}
+                    </p>
+                    <p className="text-gray-400 text-sm mt-1 pl-6">
+                      <span className="text-green-400">A:</span> {item.answer}
+                    </p>
                   </div>
                 ))}
               </div>
