@@ -1,60 +1,70 @@
-﻿import { useState } from 'react';
-import Layout from '../components/Layout';
+﻿import { useState, useEffect } from "react";
 
 export default function Dashboard() {
-  const [stats] = useState({
-    totalEmployees: 45,
-    activeProjects: 3,
-    monthlyExpenses: 450000,
-    interviewsThisWeek: 8
+  const [stats, setStats] = useState({
+    gpu: 78,
+    models: 24,
+    deployments: 156,
+    users: 1247
   });
 
   return (
-    <Layout>
-      <div className='p-6'>
-        <h1 className='text-3xl font-bold mb-6'>Company Dashboard</h1>
+    <div style={{ padding: "20px", background: "#0f0f23", minHeight: "100vh" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        <h1 style={{ color: "white", fontSize: "32px", marginBottom: "30px" }}>Dashboard</h1>
         
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8'>
-          <div className='bg-white rounded-lg shadow-lg p-6 transform transition hover:scale-105'>
-            <h3 className='text-gray-500 text-sm'>Total Employees</h3>
-            <p className='text-3xl font-bold text-blue-600'>{stats.totalEmployees}</p>
-            <p className='text-sm text-green-600 mt-2'>↑ 12% from last month</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px", marginBottom: "30px" }}>
+          <div style={{ background: "rgba(255,255,255,0.1)", padding: "20px", borderRadius: "12px" }}>
+            <h3 style={{ color: "#a0aec0", fontSize: "14px" }}>GPU Utilization</h3>
+            <p style={{ color: "white", fontSize: "32px", fontWeight: "bold" }}>{stats.gpu}%</p>
           </div>
-          <div className='bg-white rounded-lg shadow-lg p-6 transform transition hover:scale-105'>
-            <h3 className='text-gray-500 text-sm'>Active Projects</h3>
-            <p className='text-3xl font-bold text-green-600'>{stats.activeProjects}</p>
-            <p className='text-sm text-gray-600 mt-2'>2 International, 1 India</p>
+          <div style={{ background: "rgba(255,255,255,0.1)", padding: "20px", borderRadius: "12px" }}>
+            <h3 style={{ color: "#a0aec0", fontSize: "14px" }}>Active Models</h3>
+            <p style={{ color: "white", fontSize: "32px", fontWeight: "bold" }}>{stats.models}</p>
           </div>
-          <div className='bg-white rounded-lg shadow-lg p-6 transform transition hover:scale-105'>
-            <h3 className='text-gray-500 text-sm'>Monthly Expenses</h3>
-            <p className='text-3xl font-bold text-red-600'>₹{stats.monthlyExpenses.toLocaleString()}</p>
-            <p className='text-sm text-gray-600 mt-2'>Budget: ₹41,00,000 left</p>
+          <div style={{ background: "rgba(255,255,255,0.1)", padding: "20px", borderRadius: "12px" }}>
+            <h3 style={{ color: "#a0aec0", fontSize: "14px" }}>Total Deployments</h3>
+            <p style={{ color: "white", fontSize: "32px", fontWeight: "bold" }}>{stats.deployments}</p>
           </div>
-          <div className='bg-white rounded-lg shadow-lg p-6 transform transition hover:scale-105'>
-            <h3 className='text-gray-500 text-sm'>Interviews This Week</h3>
-            <p className='text-3xl font-bold text-purple-600'>{stats.interviewsThisWeek}</p>
-            <p className='text-sm text-gray-600 mt-2'>Schedule pending</p>
+          <div style={{ background: "rgba(255,255,255,0.1)", padding: "20px", borderRadius: "12px" }}>
+            <h3 style={{ color: "#a0aec0", fontSize: "14px" }}>Active Users</h3>
+            <p style={{ color: "white", fontSize: "32px", fontWeight: "bold" }}>{stats.users}</p>
           </div>
         </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          <div className='bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-lg p-6 text-white'>
-            <h3 className='text-xl font-bold mb-3'>Quick Actions</h3>
-            <ul className='space-y-2'>
-              <li>💰 View Expense Reports</li>
-              <li>👥 Manage Employees</li>
-              <li>📅 Schedule Interviews</li>
-              <li>🚀 Track Projects</li>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "20px" }}>
+          <div style={{ background: "rgba(255,255,255,0.1)", padding: "20px", borderRadius: "12px" }}>
+            <h2 style={{ color: "white", fontSize: "20px", marginBottom: "15px" }}>Recent Activity</h2>
+            <ul style={{ color: "#cbd5e0", listStyle: "none", padding: 0 }}>
+              <li style={{ padding: "10px 0", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>✓ New model deployed</li>
+              <li style={{ padding: "10px 0", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>✓ GPU cluster updated</li>
+              <li style={{ padding: "10px 0" }}>✓ Training job completed</li>
             </ul>
           </div>
-          <div className='bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg shadow-lg p-6 text-white'>
-            <h3 className='text-xl font-bold mb-3'>AI Insights</h3>
-            <p className='text-sm'>📈 FinTech AI Platform is 45% complete</p>
-            <p className='text-sm mt-2'>💰 Expenses are 15% below quarterly budget</p>
-            <p className='text-sm mt-2'>👥 3 new interviews scheduled this week</p>
+          
+          <div style={{ background: "rgba(255,255,255,0.1)", padding: "20px", borderRadius: "12px" }}>
+            <h2 style={{ color: "white", fontSize: "20px", marginBottom: "15px" }}>System Health</h2>
+            <div style={{ marginBottom: "15px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
+                <span style={{ color: "#cbd5e0" }}>CPU Usage</span>
+                <span style={{ color: "white" }}>45%</span>
+              </div>
+              <div style={{ background: "#2d3748", height: "8px", borderRadius: "4px", overflow: "hidden" }}>
+                <div style={{ width: "45%", height: "100%", background: "#4299e1", borderRadius: "4px" }}></div>
+              </div>
+            </div>
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
+                <span style={{ color: "#cbd5e0" }}>Memory Usage</span>
+                <span style={{ color: "white" }}>62%</span>
+              </div>
+              <div style={{ background: "#2d3748", height: "8px", borderRadius: "4px", overflow: "hidden" }}>
+                <div style={{ width: "62%", height: "100%", background: "#9f7aea", borderRadius: "4px" }}></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }

@@ -2,16 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-  min-height: 100vh;
+@layer base {
+  :root {
+    --primary: 59 130 246;
+    --secondary: 139 92 246;
+    --accent: 168 85 247;
+    --dark: 17 24 39;
+    --darker: 15 23 42;
+  }
+
+  * {
+    @apply transition-all duration-300;
+  }
+
+  body {
+    @apply bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800;
+    background-attachment: fixed;
+  }
 }
 
-@layer utilities {
+@layer components {
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl;
+  }
+
+  .glass-card-dark {
+    @apply bg-black/30 backdrop-blur-lg border border-white/10 rounded-2xl shadow-xl;
+  }
+
+  .neumorph {
+    @apply bg-gray-800 shadow-[20px_20px_40px_rgba(0,0,0,0.5),-20px_-20px_40px_rgba(255,255,255,0.05)] rounded-2xl;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent;
+  }
+
+  .hover-glow {
+    @apply transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:scale-105;
+  }
+
   .animate-pulse-slow {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
-  .hover\:scale-102:hover {
-    transform: scale(1.02);
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
   }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 6s ease infinite;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-800 rounded;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gradient-to-b from-blue-500 to-purple-500 rounded;
+}
+
+/* 3D canvas styles */
+canvas {
+  @apply rounded-2xl;
+}
+
+/* Particle background */
+.particle-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
 }
