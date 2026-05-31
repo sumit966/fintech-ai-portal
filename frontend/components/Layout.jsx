@@ -50,22 +50,22 @@ export default function Layout({ children }) {
 
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <div className='min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300'>
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
         {/* Sidebar */}
-        <aside className={ixed top-0 left-0 z-40 h-screen transition-transform  bg-white dark:bg-gray-800 shadow-lg w-64}>
-          <div className='h-full px-3 py-4 overflow-y-auto'>
-            <div className='flex items-center justify-between mb-5 pb-3 border-b dark:border-gray-700'>
-              <h2 className='text-xl font-bold text-blue-600 dark:text-blue-400'>Company Portal</h2>
-              <button onClick={() => setSidebarOpen(false)} className='lg:hidden text-gray-500 dark:text-gray-400'>
+        <aside className={"fixed top-0 left-0 z-40 h-screen transition-transform " + (sidebarOpen ? 'translate-x-0' : '-translate-x-full') + " bg-white dark:bg-gray-800 shadow-lg w-64"}>
+          <div className="h-full px-3 py-4 overflow-y-auto">
+            <div className="flex items-center justify-between mb-5 pb-3 border-b dark:border-gray-700">
+              <h2 className="text-xl font-bold text-blue-600 dark:text-blue-400">Company Portal</h2>
+              <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-gray-500 dark:text-gray-400">
                 ✕
               </button>
             </div>
-            <ul className='space-y-2'>
+            <ul className="space-y-2">
               {navigation.map((item) => (
                 <li key={item.name}>
                   <Link href={item.href}>
-                    <span className={lex items-center p-2 rounded-lg cursor-pointer transition }>
-                      <span className='mr-3'>{item.icon}</span>
+                    <span className={"flex items-center p-2 rounded-lg cursor-pointer transition " + (router.pathname === item.href ? 'bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700')}>
+                      <span className="mr-3">{item.icon}</span>
                       <span>{item.name}</span>
                     </span>
                   </Link>
@@ -77,7 +77,7 @@ export default function Layout({ children }) {
 
         {/* Mobile sidebar toggle */}
         {!sidebarOpen && (
-          <button onClick={() => setSidebarOpen(true)} className='lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-600 text-white rounded-lg shadow-lg'>
+          <button onClick={() => setSidebarOpen(true)} className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-600 text-white rounded-lg shadow-lg">
             ☰
           </button>
         )}
@@ -85,14 +85,14 @@ export default function Layout({ children }) {
         {/* Dark mode toggle */}
         <button
           onClick={toggleDarkMode}
-          className='fixed top-4 right-4 z-50 p-2 bg-gray-200 dark:bg-gray-700 rounded-lg shadow-lg'
+          className="fixed top-4 right-4 z-50 p-2 bg-gray-200 dark:bg-gray-700 rounded-lg shadow-lg"
         >
           {darkMode ? '☀️' : '🌙'}
         </button>
 
         {/* Main content */}
-        <main className={${sidebarOpen ? 'lg:ml-64' : ''} p-4 transition-all duration-300}>
-          <div className='container mx-auto'>
+        <main className={(sidebarOpen ? 'lg:ml-64' : '') + " p-4 transition-all duration-300"}>
+          <div className="container mx-auto">
             {children}
           </div>
         </main>
