@@ -1,86 +1,102 @@
-﻿import { useState } from 'react';
+﻿import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { 
-  LayoutDashboard, Server, Cpu, Brain, Users, FolderGit2,
-  Cloud, Settings, LogOut, Menu, X, ChevronRight,
-  Activity, HardDrive, Calendar, FileText, DollarSign, Database,
-  Zap, Bot
-} from 'lucide-react';
-
-const menuItems = [
-  { name: 'Dashboard', icon: LayoutDashboard, path: '/' },
-  { name: 'Virtual Machines', icon: Server, path: '/vms' },
-  { name: 'GPU Monitoring', icon: Cpu, path: '/gpu' },
-  { name: 'AI Models', icon: Brain, path: '/ai-models' },
-  { name: 'Projects', icon: FolderGit2, path: '/projects' },
-  { name: 'Employees', icon: Users, path: '/employees' },
-  { name: 'Deployments', icon: Cloud, path: '/deployments' },
-  { name: 'Resources', icon: HardDrive, path: '/resources' },
-  { name: 'Training Jobs', icon: Activity, path: '/training' },
-  { name: 'Datasets', icon: Database, path: '/datasets' },
-  { name: 'Payroll', icon: DollarSign, path: '/payroll' },
-  { name: 'Exams', icon: FileText, path: '/exams' },
-  { name: 'Interviews', icon: Calendar, path: '/interviews' },
-  { name: 'HRMS', icon: Calendar, path: '/hrms' },
-  { name: 'AI Assistant', icon: Bot, path: '/ai-assistant' },
-    { name: 'Attendance', icon: Calendar, path: '/attendance' },{ name: 'Portal', icon: Zap, path: '/portal' },
-  { name: 'Settings', icon: Settings, path: '/settings' }
-];
 
 export default function Layout({ children }) {
-  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
+  const router = useRouter();
 
-  const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    router.push('/login');
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setDarkMode(true);
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    if (darkMode) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+    setDarkMode(!darkMode);
   };
 
+  const navigation = [
+    { name: 'Dashboard', href: '/dashboard', icon: '📊' },
+    { name: 'Projects', href: '/projects', icon: '🚀' },
+    { name: 'Employees', href: '/employees', icon: '👥' },
+    { name: 'Expenses', href: '/expenses', icon: '💰' },
+    { name: 'Virtual Machines', href: '/virtual-machines', icon: '🖥️' },
+    { name: 'GPU Monitoring', href: '/gpu-monitoring', icon: '🎮' },
+    { name: 'AI Models', href: '/ai-models', icon: '🤖' },
+    { name: 'Deployments', href: '/deployments', icon: '🚀' },
+    { name: 'Resources', href: '/resources', icon: '📦' },
+    { name: 'Training Jobs', href: '/training-jobs', icon: '📚' },
+    { name: 'Datasets', href: '/datasets', icon: '📊' },
+    { name: 'Payroll', href: '/payroll', icon: '💰' },
+    { name: 'Exams', href: '/exams', icon: '📝' },
+    { name: 'Interviews', href: '/interviews', icon: '🎯' },
+    { name: 'HRMS', href: '/hrms', icon: '🏢' },
+    { name: 'AI Assistant', href: '/ai-assistant', icon: '💬' },
+    { name: 'Attendance', href: '/attendance', icon: '📅' },
+    { name: 'Portal', href: '/portal', icon: '🔗' },
+    { name: 'Settings', href: '/settings', icon: '⚙️' },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-      <aside className={`fixed left-0 top-0 h-full bg-gray-900/95 backdrop-blur-xl border-r border-gray-700/50 transition-all duration-300 z-30 ${sidebarOpen ? 'w-64' : 'w-20'}`}>
-        <div className="flex flex-col h-full">
-          <div className="p-4 flex items-center justify-between border-b border-gray-700/50">
-            {sidebarOpen && <h1 className="text-xl font-bold text-white">Fintech AI</h1>}
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-white/10">
-              {sidebarOpen ? <X size={18} className="text-gray-400" /> : <Menu size={18} className="text-gray-400" />}
-            </button>
-          </div>
-          <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-            {menuItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = router.pathname === item.path;
-              return (
-                <Link href={item.path} key={item.path}>
-                  <div className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 cursor-pointer ${isActive ? 'bg-blue-600/20 border border-blue-500/30' : 'hover:bg-white/10'}`}>
-                    <Icon size={18} className={isActive ? 'text-blue-400' : 'text-gray-500'} />
-                    {sidebarOpen && <span className={`text-sm ${isActive ? 'text-white' : 'text-gray-400'}`}>{item.name}</span>}
-                    {isActive && sidebarOpen && <ChevronRight size={14} className="ml-auto text-blue-400" />}
-                  </div>
-                </Link>
-              );
-            })}
-          </nav>
-          <div className="p-4 border-t border-gray-700/50">
-            <button onClick={handleLogout} className="w-full flex items-center gap-2 px-3 py-2 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition">
-              <LogOut size={16} /> {sidebarOpen && 'Logout'}
-            </button>
-          </div>
-        </div>
-      </aside>
-      <main className={`transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
-        <header className="sticky top-0 z-20 bg-gray-800/50 backdrop-blur-xl border-b border-gray-700/50 px-6 py-3">
-          <div className="flex justify-end items-center">
-            <div className="flex items-center gap-3 px-3 py-1.5 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-lg">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">SK</div>
-              <div><p className="text-sm font-medium text-white">Sumit Kumar</p><p className="text-xs text-gray-400">CEO & Founder</p></div>
+    <div className={darkMode ? 'dark' : ''}>
+      <div className='min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300'>
+        {/* Sidebar */}
+        <aside className={ixed top-0 left-0 z-40 h-screen transition-transform  bg-white dark:bg-gray-800 shadow-lg w-64}>
+          <div className='h-full px-3 py-4 overflow-y-auto'>
+            <div className='flex items-center justify-between mb-5 pb-3 border-b dark:border-gray-700'>
+              <h2 className='text-xl font-bold text-blue-600 dark:text-blue-400'>Company Portal</h2>
+              <button onClick={() => setSidebarOpen(false)} className='lg:hidden text-gray-500 dark:text-gray-400'>
+                ✕
+              </button>
             </div>
+            <ul className='space-y-2'>
+              {navigation.map((item) => (
+                <li key={item.name}>
+                  <Link href={item.href}>
+                    <span className={lex items-center p-2 rounded-lg cursor-pointer transition }>
+                      <span className='mr-3'>{item.icon}</span>
+                      <span>{item.name}</span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-        </header>
-        <div className="p-6">{children}</div>
-      </main>
+        </aside>
+
+        {/* Mobile sidebar toggle */}
+        {!sidebarOpen && (
+          <button onClick={() => setSidebarOpen(true)} className='lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-600 text-white rounded-lg shadow-lg'>
+            ☰
+          </button>
+        )}
+
+        {/* Dark mode toggle */}
+        <button
+          onClick={toggleDarkMode}
+          className='fixed top-4 right-4 z-50 p-2 bg-gray-200 dark:bg-gray-700 rounded-lg shadow-lg'
+        >
+          {darkMode ? '☀️' : '🌙'}
+        </button>
+
+        {/* Main content */}
+        <main className={${sidebarOpen ? 'lg:ml-64' : ''} p-4 transition-all duration-300}>
+          <div className='container mx-auto'>
+            {children}
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
-
