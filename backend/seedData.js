@@ -1,114 +1,101 @@
 ﻿const mongoose = require('mongoose');
-const Employee = require('./models/Employee');
 const Project = require('./models/Project');
-const Payroll = require('./models/Payroll');
-const Exam = require('./models/Exam');
-const Interview = require('./models/Interview');
-require('dotenv').config();
+const Employee = require('./models/Employee');
+const Expense = require('./models/Expense');
 
-const employees = [
-  { name: 'Sumit Kumar', role: 'CEO & Founder', email: 'sumit.kumar@fintech.com', city: 'Mumbai', experience: 'experienced', salary: 350000, joinDate: new Date('2025-03-01'), department: 'Leadership', performance: 98 },
-  { name: 'Priya Sharma', role: 'COO', email: 'priya.sharma@fintech.com', city: 'Delhi', experience: 'experienced', salary: 280000, joinDate: new Date('2025-03-01'), department: 'Leadership', performance: 95 },
-  { name: 'Rahul Verma', role: 'HR Manager', email: 'rahul.verma@fintech.com', city: 'Bangalore', experience: 'experienced', salary: 150000, joinDate: new Date('2025-03-01'), department: 'HR', performance: 92 },
-  { name: 'Neha Gupta', role: 'Project Manager', email: 'neha.gupta@fintech.com', city: 'Pune', experience: 'experienced', salary: 160000, joinDate: new Date('2025-03-01'), department: 'Project Management', performance: 94 },
-  { name: 'Amit Patel', role: 'Team Leader', email: 'amit.patel@fintech.com', city: 'Ahmedabad', experience: 'experienced', salary: 140000, joinDate: new Date('2025-03-05'), department: 'Engineering', performance: 90 },
-  { name: 'Deepak Joshi', role: 'QA Lead', email: 'deepak.joshi@fintech.com', city: 'Jaipur', experience: 'experienced', salary: 135000, joinDate: new Date('2025-03-05'), department: 'QA', performance: 88 },
-  { name: 'Kavita Singh', role: 'Cybersecurity Expert', email: 'kavita.singh@fintech.com', city: 'Lucknow', experience: 'experienced', salary: 180000, joinDate: new Date('2025-03-02'), department: 'Security', performance: 96 },
-  { name: 'Rajesh Kumar', role: 'DevOps Engineer', email: 'rajesh.kumar@fintech.com', city: 'Hyderabad', experience: 'experienced', salary: 155000, joinDate: new Date('2025-03-03'), department: 'Infrastructure', performance: 91 },
-  { name: 'Anjali Desai', role: 'Senior Developer', email: 'anjali.desai@fintech.com', city: 'Surat', experience: 'experienced', salary: 130000, joinDate: new Date('2025-03-06'), department: 'Engineering', performance: 89 },
-  { name: 'Vikram Singh', role: 'Senior Developer', email: 'vikram.singh@fintech.com', city: 'Chandigarh', experience: 'experienced', salary: 125000, joinDate: new Date('2025-03-04'), department: 'Engineering', performance: 87 },
-  { name: 'Arjun Reddy', role: 'Fresher Developer', email: 'arjun.reddy@fintech.com', city: 'Hyderabad', experience: 'fresher', salary: 45000, joinDate: new Date('2025-03-17'), department: 'Engineering', performance: 75 },
-  { name: 'Divya Nair', role: 'Fresher Tester', email: 'divya.nair@fintech.com', city: 'Chennai', experience: 'fresher', salary: 42000, joinDate: new Date('2025-03-18'), department: 'QA', performance: 72 },
-  { name: 'Kunal Mehta', role: 'Fresher Developer', email: 'kunal.mehta@fintech.com', city: 'Indore', experience: 'fresher', salary: 45000, joinDate: new Date('2025-03-19'), department: 'Engineering', performance: 78 },
-  { name: 'Pooja Sharma', role: 'Fresher Developer', email: 'pooja.sharma@fintech.com', city: 'Bhopal', experience: 'fresher', salary: 44000, joinDate: new Date('2025-03-20'), department: 'Engineering', performance: 74 },
-  { name: 'Rohan Patil', role: 'Fresher Tester', email: 'rohan.patil@fintech.com', city: 'Pune', experience: 'fresher', salary: 42000, joinDate: new Date('2025-03-21'), department: 'QA', performance: 70 },
-  { name: 'Sneha Rajput', role: 'Fresher Developer', email: 'sneha.rajput@fintech.com', city: 'Nagpur', experience: 'fresher', salary: 44000, joinDate: new Date('2025-03-22'), department: 'Engineering', performance: 76 }
-];
-
-const projects = [
-  { name: 'NeoPay Gateway', client: 'HDFC Bank', category: 'Finance', description: 'Digital payment gateway with UPI integration', techStack: ['React', 'Node.js', 'MongoDB'], languages: ['JavaScript', 'TypeScript'], tools: ['Docker', 'Jenkins'], startDate: new Date('2025-04-01'), status: 'running', budget: 25000000, gitRepo: 'https://github.com/fintech/neopay', liveUrl: 'https://neopay.fintech.com', deploymentStatus: 'deployed', sshEnabled: true },
-  { name: 'RiskShield AI', client: 'ICICI Lombard', category: 'Finance', description: 'AI-powered fraud detection system', techStack: ['Python', 'TensorFlow', 'FastAPI'], languages: ['Python'], tools: ['Jupyter', 'MLflow'], startDate: new Date('2025-05-15'), status: 'running', budget: 18000000, gitRepo: 'https://github.com/fintech/riskshield', liveUrl: 'https://riskshield.fintech.com', deploymentStatus: 'staging', sshEnabled: true },
-  { name: 'EcomPulse', client: 'Flipkart', category: 'Website Development', description: 'E-commerce analytics dashboard', techStack: ['Next.js', 'GraphQL', 'PostgreSQL'], languages: ['TypeScript'], tools: ['Vercel', 'Apollo'], startDate: new Date('2025-06-01'), status: 'running', budget: 15000000, gitRepo: 'https://github.com/fintech/ecompulse', liveUrl: 'https://ecompulse.fintech.com', deploymentStatus: 'deployed', sshEnabled: true }
-];
-
-const exams = [
-  { name: 'Coding Test', type: 'past', date: new Date('2025-04-15'), duration: 120, totalMarks: 100, passingMarks: 60 },
-  { name: 'Java Developer Test', type: 'past', date: new Date('2025-05-20'), duration: 90, totalMarks: 100, passingMarks: 65 },
-  { name: 'Cybersecurity Test', type: 'past', date: new Date('2025-06-10'), duration: 120, totalMarks: 100, passingMarks: 70 },
-  { name: 'Web Development Test', type: 'past', date: new Date('2025-07-25'), duration: 90, totalMarks: 100, passingMarks: 60 },
-  { name: 'React Advanced', type: 'upcoming', date: new Date('2026-05-15'), duration: 120, totalMarks: 100, passingMarks: 70 }
-];
-
-const interviews = [
-  { candidateName: 'Rajesh Sharma', role: 'Senior Developer', type: 'past', date: new Date('2025-02-20'), hrRound: 'passed', technicalRound: 'passed', finalResult: 'selected', interviewer: 'Rahul Verma' },
-  { candidateName: 'Priya Singh', role: 'Project Manager', type: 'past', date: new Date('2025-02-22'), hrRound: 'passed', technicalRound: 'passed', finalResult: 'selected', interviewer: 'Neha Gupta' }
-];
-
-async function seedDatabase() {
+const seedDatabase = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/company_portal');
-    console.log('Connected to MongoDB');
-    
-    await Employee.deleteMany({});
+    // Clear existing data
     await Project.deleteMany({});
-    await Payroll.deleteMany({});
-    await Exam.deleteMany({});
-    await Interview.deleteMany({});
-    
-    const insertedEmployees = await Employee.insertMany(employees);
-    console.log('Inserted ' + insertedEmployees.length + ' employees');
-    
-    const insertedProjects = await Project.insertMany(projects);
-    console.log('Inserted ' + insertedProjects.length + ' projects');
-    
-    const payrollRecords = [];
-    for (const emp of insertedEmployees) {
-      for (let month = 3; month <= 12; month++) {
-        const taxDeduction = emp.salary * 0.1;
-        payrollRecords.push({
-          employeeId: emp._id,
-          employeeName: emp.name,
-          month: month,
-          year: 2025,
-          baseSalary: emp.salary,
-          hra: emp.salary * 0.4,
-          bonus: month === 3 ? emp.salary * 0.2 : 0,
-          taxDeduction: taxDeduction,
-          netSalary: emp.salary - taxDeduction + (month === 3 ? emp.salary * 0.2 : 0),
-          status: 'paid'
-        });
+    await Employee.deleteMany({});
+    await Expense.deleteMany({});
+
+    // Create employees
+    const employees = await Employee.create([
+      { name: 'Rajesh Kumar', position: 'Senior Developer', department: 'Engineering', email: 'rajesh@company.com', location: 'India', skills: ['React', 'Node.js', 'Python'] },
+      { name: 'Priya Sharma', position: 'Project Manager', department: 'Management', email: 'priya@company.com', location: 'India', skills: ['Agile', 'Scrum', 'Leadership'] },
+      { name: 'John Smith', position: 'Tech Lead', department: 'Engineering', email: 'john@company.com', location: 'USA', skills: ['AWS', 'Kubernetes', 'Java'] },
+      { name: 'Sarah Johnson', position: 'UX Designer', department: 'Design', email: 'sarah@company.com', location: 'UK', skills: ['Figma', 'Adobe XD', 'UI/UX'] },
+      { name: 'Vikram Singh', position: 'Backend Developer', department: 'Engineering', email: 'vikram@company.com', location: 'India', skills: ['Node.js', 'MongoDB', 'Express'] }
+    ]);
+
+    // Create projects
+    const projects = await Project.create([
+      {
+        name: 'FinTech AI Platform',
+        description: 'AI-powered financial analytics platform',
+        longDescription: 'A comprehensive AI platform that analyzes financial data, predicts market trends, and provides automated investment recommendations using machine learning algorithms.',
+        client: 'Global Bank Corp',
+        clientLocation: 'International',
+        budget: 2500000,
+        startDate: new Date('2024-01-15'),
+        endDate: new Date('2024-12-31'),
+        status: 'In Progress',
+        technologies: ['Python', 'TensorFlow', 'React', 'AWS', 'PostgreSQL'],
+        team: [employees[0]._id, employees[2]._id],
+        milestones: [
+          { title: 'Requirements Gathering', completed: true, date: new Date('2024-02-01') },
+          { title: 'AI Model Development', completed: true, date: new Date('2024-04-15') },
+          { title: 'Frontend Development', completed: false, date: new Date('2024-07-30') },
+          { title: 'Testing & Deployment', completed: false, date: new Date('2024-11-30') }
+        ],
+        progress: 45
+      },
+      {
+        name: 'E-Commerce Mobile App',
+        description: 'Cross-platform shopping application',
+        longDescription: 'A modern e-commerce mobile app with AR try-on features, real-time inventory tracking, and AI-powered product recommendations for enhanced shopping experience.',
+        client: 'ShopEasy Retail',
+        clientLocation: 'India',
+        budget: 1200000,
+        startDate: new Date('2024-02-01'),
+        endDate: new Date('2024-08-31'),
+        status: 'In Progress',
+        technologies: ['React Native', 'Node.js', 'MongoDB', 'Redis'],
+        team: [employees[0]._id, employees[4]._id, employees[3]._id],
+        milestones: [
+          { title: 'UI/UX Design', completed: true, date: new Date('2024-02-28') },
+          { title: 'Backend API Development', completed: true, date: new Date('2024-04-15') },
+          { title: 'Mobile App Development', completed: false, date: new Date('2024-06-30') },
+          { title: 'App Store Submission', completed: false, date: new Date('2024-08-15') }
+        ],
+        progress: 60
+      },
+      {
+        name: 'Healthcare Management System',
+        description: 'Patient record and appointment system',
+        longDescription: 'A comprehensive healthcare management system with electronic health records, appointment scheduling, telemedicine integration, and prescription management.',
+        client: 'City Hospital Group',
+        clientLocation: 'India',
+        budget: 1800000,
+        startDate: new Date('2024-03-01'),
+        endDate: new Date('2024-12-15'),
+        status: 'Planning',
+        technologies: ['Angular', 'Spring Boot', 'MySQL', 'Docker'],
+        team: [employees[1]._id, employees[4]._id],
+        milestones: [
+          { title: 'Requirements Analysis', completed: true, date: new Date('2024-03-30') },
+          { title: 'System Architecture', completed: false, date: new Date('2024-05-15') },
+          { title: 'Development Phase 1', completed: false, date: new Date('2024-08-30') },
+          { title: 'Testing & HIPAA Compliance', completed: false, date: new Date('2024-11-30') }
+        ],
+        progress: 15
       }
-      for (let month = 1; month <= 4; month++) {
-        const taxDeduction = emp.salary * 0.1;
-        payrollRecords.push({
-          employeeId: emp._id,
-          employeeName: emp.name,
-          month: month,
-          year: 2026,
-          baseSalary: emp.salary,
-          hra: emp.salary * 0.4,
-          bonus: month === 1 ? emp.salary * 0.15 : 0,
-          taxDeduction: taxDeduction,
-          netSalary: emp.salary - taxDeduction + (month === 1 ? emp.salary * 0.15 : 0),
-          status: 'paid'
-        });
-      }
-    }
-    await Payroll.insertMany(payrollRecords);
-    console.log('Inserted ' + payrollRecords.length + ' payroll records');
-    
-    await Exam.insertMany(exams);
-    console.log('Inserted ' + exams.length + ' exams');
-    
-    await Interview.insertMany(interviews);
-    console.log('Inserted ' + interviews.length + ' interviews');
-    
-    console.log('Database seeding completed successfully!');
-    process.exit(0);
+    ]);
+
+    // Create expenses
+    await Expense.create([
+      { category: 'Salary', amount: 250000, description: 'February salaries', date: new Date('2024-02-28'), project: projects[0].name },
+      { category: 'Infrastructure', amount: 75000, description: 'Cloud services', date: new Date('2024-02-15'), project: projects[0].name },
+      { category: 'Travel', amount: 45000, description: 'Client meeting travel', date: new Date('2024-02-10') },
+      { category: 'Software', amount: 30000, description: 'Software licenses', date: new Date('2024-02-20'), project: projects[1].name },
+      { category: 'Marketing', amount: 50000, description: 'Digital marketing campaign', date: new Date('2024-02-25') }
+    ]);
+
+    console.log('Database seeded successfully!');
   } catch (error) {
     console.error('Error seeding database:', error);
-    process.exit(1);
   }
-}
+};
 
-seedDatabase();
+module.exports = seedDatabase;
