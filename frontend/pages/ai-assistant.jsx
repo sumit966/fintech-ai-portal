@@ -1,57 +1,22 @@
-﻿import { useState } from "react";
+import { withAuth } from '../utils/withAuth';
+import Layout from '../components/Layout';
+import { motion } from 'framer-motion';
 
-export default function AIAssistant() {
-  const [messages, setMessages] = useState([
-    { role: "assistant", content: "Hello! How can I help you today?" }
-  ]);
-  const [input, setInput] = useState("");
-
-  const sendMessage = () => {
-    if (!input.trim()) return;
-    setMessages([...messages, { role: "user", content: input }]);
-    setTimeout(() => {
-      setMessages(prev => [...prev, { role: "assistant", content: "I'm processing your request. How can I assist you further?" }]);
-    }, 500);
-    setInput("");
-  };
-
+function aiassistant() {
   return (
-    <div style={{ padding: "20px", background: "#0f0f23", minHeight: "100vh" }}>
-      <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <h1 style={{ color: "white", fontSize: "32px", marginBottom: "10px" }}>AI Assistant</h1>
-        <p style={{ color: "#a0aec0", marginBottom: "30px" }}>Your intelligent enterprise assistant</p>
-        
-        <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: "12px", height: "500px", display: "flex", flexDirection: "column" }}>
-          <div style={{ flex: 1, overflowY: "auto", padding: "20px" }}>
-            {messages.map((msg, idx) => (
-              <div key={idx} style={{ display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start", marginBottom: "15px" }}>
-                <div style={{ 
-                  background: msg.role === "user" ? "#4299e1" : "#2d3748", 
-                  padding: "10px 15px", 
-                  borderRadius: "12px",
-                  maxWidth: "70%",
-                  color: "white"
-                }}>
-                  {msg.content}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{ padding: "20px", borderTop: "1px solid rgba(255,255,255,0.1)", display: "flex", gap: "10px" }}>
-            <input 
-              type="text" 
-              value={input} 
-              onChange={(e) => setInput(e.target.value)} 
-              onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-              placeholder="Type your message..." 
-              style={{ flex: 1, padding: "10px", borderRadius: "8px", border: "none", background: "rgba(255,255,255,0.05)", color: "white" }}
-            />
-            <button onClick={sendMessage} style={{ padding: "10px 20px", background: "#4299e1", color: "white", border: "none", borderRadius: "8px", cursor: "pointer" }}>
-              Send
-            </button>
-          </div>
-        </div>
+    <div>
+      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <h1 className="text-4xl font-bold gradient-text"></h1>
+        <p className="text-gray-400 mt-2">Enterprise  dashboard</p>
+      </motion.div>
+      <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-12 border border-white/20 text-center">
+        <div className="text-6xl mb-4">??</div>
+        <h2 className="text-2xl font-semibold text-white mb-2">Coming Soon</h2>
+        <p className="text-gray-400">Advanced analytics for  is being prepared</p>
       </div>
     </div>
   );
 }
+
+export default withAuth(aiassistant);
+aiassistant.getLayout = (page) => <Layout>{page}</Layout>;

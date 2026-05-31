@@ -1,47 +1,22 @@
-﻿export default function GpuMonitoring() {
-  const gpus = [
-    { name: "NVIDIA A100", usage: 87, temp: 72, memory: 8.2 },
-    { name: "NVIDIA V100", usage: 92, temp: 75, memory: 10.4 },
-    { name: "NVIDIA T4", usage: 45, temp: 58, memory: 4.2 },
-    { name: "AMD MI100", usage: 78, temp: 69, memory: 6.8 }
-  ];
+import { withAuth } from '../utils/withAuth';
+import Layout from '../components/Layout';
+import { motion } from 'framer-motion';
 
+function gpumonitoring() {
   return (
-    <div style={{ padding: "20px", background: "#0f0f23", minHeight: "100vh" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <h1 style={{ color: "white", fontSize: "32px", marginBottom: "10px" }}>GPU Monitoring</h1>
-        <p style={{ color: "#a0aec0", marginBottom: "30px" }}>Real-time GPU performance metrics</p>
-        
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
-          {gpus.map((gpu, idx) => (
-            <div key={idx} style={{ background: "rgba(255,255,255,0.1)", padding: "20px", borderRadius: "12px" }}>
-              <h2 style={{ color: "white", fontSize: "20px", marginBottom: "15px" }}>{gpu.name}</h2>
-              <div style={{ marginBottom: "15px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
-                  <span style={{ color: "#cbd5e0" }}>Utilization</span>
-                  <span style={{ color: "white" }}>{gpu.usage}%</span>
-                </div>
-                <div style={{ background: "#2d3748", height: "8px", borderRadius: "4px" }}>
-                  <div style={{ width: `${gpu.usage}%`, height: "100%", background: "#4299e1", borderRadius: "4px" }}></div>
-                </div>
-              </div>
-              <div style={{ marginBottom: "15px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
-                  <span style={{ color: "#cbd5e0" }}>Temperature</span>
-                  <span style={{ color: "white" }}>{gpu.temp}°C</span>
-                </div>
-                <div style={{ background: "#2d3748", height: "8px", borderRadius: "4px" }}>
-                  <div style={{ width: `${gpu.temp}%`, height: "100%", background: "#e53e3e", borderRadius: "4px" }}></div>
-                </div>
-              </div>
-              <div>
-                <span style={{ color: "#cbd5e0" }}>Memory: </span>
-                <span style={{ color: "white" }}>{gpu.memory} GB / 12 GB</span>
-              </div>
-            </div>
-          ))}
-        </div>
+    <div>
+      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <h1 className="text-4xl font-bold gradient-text"></h1>
+        <p className="text-gray-400 mt-2">Enterprise  dashboard</p>
+      </motion.div>
+      <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-12 border border-white/20 text-center">
+        <div className="text-6xl mb-4">??</div>
+        <h2 className="text-2xl font-semibold text-white mb-2">Coming Soon</h2>
+        <p className="text-gray-400">Advanced analytics for  is being prepared</p>
       </div>
     </div>
   );
 }
+
+export default withAuth(gpumonitoring);
+gpumonitoring.getLayout = (page) => <Layout>{page}</Layout>;

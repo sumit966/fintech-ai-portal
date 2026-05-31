@@ -1,15 +1,22 @@
-﻿export default function () {
+import { withAuth } from '../utils/withAuth';
+import Layout from '../components/Layout';
+import { motion } from 'framer-motion';
+
+function settings() {
   return (
-    <div style={{ padding: "20px", background: "#0f0f23", minHeight: "100vh" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <h1 style={{ color: "white", fontSize: "32px", marginBottom: "10px" }}></h1>
-        <p style={{ color: "#a0aec0", marginBottom: "30px" }}>Enterprise  management dashboard</p>
-        <div style={{ background: "rgba(255,255,255,0.1)", padding: "40px", borderRadius: "12px", textAlign: "center" }}>
-          <div style={{ fontSize: "48px", marginBottom: "20px" }}>🚀</div>
-          <h2 style={{ color: "white", marginBottom: "10px" }}>Coming Soon</h2>
-          <p style={{ color: "#a0aec0" }}>Advanced analytics for  is being prepared</p>
-        </div>
+    <div>
+      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <h1 className="text-4xl font-bold gradient-text"></h1>
+        <p className="text-gray-400 mt-2">Enterprise  dashboard</p>
+      </motion.div>
+      <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-12 border border-white/20 text-center">
+        <div className="text-6xl mb-4">??</div>
+        <h2 className="text-2xl font-semibold text-white mb-2">Coming Soon</h2>
+        <p className="text-gray-400">Advanced analytics for  is being prepared</p>
       </div>
     </div>
   );
 }
+
+export default withAuth(settings);
+settings.getLayout = (page) => <Layout>{page}</Layout>;
