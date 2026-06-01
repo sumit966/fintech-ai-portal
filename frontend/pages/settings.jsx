@@ -1,22 +1,8 @@
-import { withAuth } from '../utils/withAuth';
-import Layout from '../components/Layout';
-import { motion } from 'framer-motion';
-
-function settings() {
-  return (
-    <div>
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="text-4xl font-bold gradient-text"></h1>
-        <p className="text-gray-400 mt-2">Enterprise  dashboard</p>
-      </motion.div>
-      <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-12 border border-white/20 text-center">
-        <div className="text-6xl mb-4">??</div>
-        <h2 className="text-2xl font-semibold text-white mb-2">Coming Soon</h2>
-        <p className="text-gray-400">Advanced analytics for  is being prepared</p>
-      </div>
-    </div>
-  );
-}
-
-export default withAuth(settings);
-settings.getLayout = (page) => <Layout>{page}</Layout>;
+import Layout from "../components/Layout";
+import { Shield, Bell, User, Key, Database, LogOut } from "lucide-react";
+export default function SettingsPage() {
+  return (<div><h1 className="text-2xl font-bold text-white mb-1">Settings</h1><div className="grid grid-cols-1 md:grid-cols-2 gap-6"><div className="glass-card p-5"><h2 className="text-white font-semibold mb-4 flex items-center"><User className="w-4 h-4 mr-2 text-purple-400"/>Profile</h2><div className="space-y-3"><div className="flex justify-between"><span className="text-gray-400">CEO</span><span className="text-white">Sumit Raj</span></div><div className="flex justify-between"><span className="text-gray-400">Company</span><span className="text-white">FinTech AI</span></div><div className="flex justify-between"><span className="text-gray-400">Email</span><span className="text-white">ceo@fintechai.com</span></div><button className="mt-3 w-full bg-purple-600 py-2 rounded-lg">Edit Profile</button></div></div>
+  <div className="glass-card p-5"><h2 className="text-white font-semibold mb-4 flex items-center"><Shield className="w-4 h-4 mr-2 text-green-400"/>Security</h2><div className="flex justify-between"><span className="text-gray-400">2FA Status</span><span className="text-green-400">Enabled</span></div><button className="mt-3 w-full bg-purple-600 py-2 rounded-lg">Change Password</button></div>
+  <div className="glass-card p-5"><h2 className="text-white font-semibold mb-4 flex items-center"><Bell className="w-4 h-4 mr-2 text-yellow-400"/>Notifications</h2><label className="flex justify-between"><span className="text-gray-400">Email Alerts</span><input type="checkbox" defaultChecked/></label></div>
+  <div className="glass-card p-5"><h2 className="text-white font-semibold mb-4 flex items-center"><Database className="w-4 h-4 mr-2 text-blue-400"/>System</h2><div className="flex justify-between"><span className="text-gray-400">Version</span><span className="text-white">2.0.0</span></div><button className="mt-3 w-full bg-red-500/20 text-red-400 py-2 rounded-lg flex items-center justify-center"><LogOut className="w-4 h-4 mr-2"/>Logout</button></div></div></div>);}
+SettingsPage.getLayout = (page) => <Layout>{page}</Layout>;

@@ -1,22 +1,6 @@
-import { withAuth } from '../utils/withAuth';
-import Layout from '../components/Layout';
-import { motion } from 'framer-motion';
-
-function deployments() {
-  return (
-    <div>
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="text-4xl font-bold gradient-text"></h1>
-        <p className="text-gray-400 mt-2">Enterprise  dashboard</p>
-      </motion.div>
-      <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-12 border border-white/20 text-center">
-        <div className="text-6xl mb-4">??</div>
-        <h2 className="text-2xl font-semibold text-white mb-2">Coming Soon</h2>
-        <p className="text-gray-400">Advanced analytics for  is being prepared</p>
-      </div>
-    </div>
-  );
-}
-
-export default withAuth(deployments);
-deployments.getLayout = (page) => <Layout>{page}</Layout>;
+import Layout from "../components/Layout";
+import { Rocket, CheckCircle, Globe, Activity } from "lucide-react";
+export default function Deployments() {
+  const deployments = [{ name:"FinTech API", status:"Active", uptime:"99.99%", region:"Global", latency:"124ms" },{ name:"AI Model Service", status:"Active", uptime:"99.95%", region:"USA/India", latency:"89ms" },{ name:"Database Cluster", status:"Active", uptime:"99.99%", region:"Multi-region", latency:"45ms" }];
+  return (<div><h1 className="text-2xl font-bold text-white mb-1">Deployments</h1><div className="grid grid-cols-1 md:grid-cols-3 gap-4">{deployments.map(d=>(<div key={d.name} className="glass-card p-4"><Rocket className="w-6 h-6 text-green-400 mb-2"/><h3 className="text-white font-semibold">{d.name}</h3><div className="mt-2 space-y-1 text-xs"><div className="flex justify-between"><span className="text-gray-400">Status</span><span className="text-green-400">{d.status}</span></div><div className="flex justify-between"><span className="text-gray-400">Uptime</span><span className="text-white">{d.uptime}</span></div><div className="flex justify-between"><span className="text-gray-400">Region</span><span className="text-white">{d.region}</span></div></div></div>))}</div></div>);}
+Deployments.getLayout = (page) => <Layout>{page}</Layout>;

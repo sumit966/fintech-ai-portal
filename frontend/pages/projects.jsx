@@ -1,34 +1,21 @@
-import { withAuth } from '../utils/withAuth';
+import { useState } from 'react';
 import Layout from '../components/Layout';
-import { motion } from 'framer-motion';
-import { Rocket, Calendar, Users } from 'lucide-react';
+import { Rocket, Calendar, Users, Code, CheckCircle, Clock } from 'lucide-react';
 
-function Projects() {
+export default function Projects() {
+  const [selected, setSelected] = useState(null);
   const projects = [
-    { id: 1, name: 'FinTech AI Platform', client: 'Global Bank Corp', location: 'International', budget: '?25,00,000', progress: 45 },
-    { id: 2, name: 'E-Commerce Mobile App', client: 'ShopEasy Retail', location: 'India', budget: '?12,00,000', progress: 60 },
-    { id: 3, name: 'Healthcare System', client: 'City Hospital', location: 'India', budget: '?18,00,000', progress: 15 },
+    { id:1, name:'FinTech AI Platform', client:'Global Bank Corp', location:'International', budget:'?25,00,000', start:'Jan 2025', end:'Dec 2025', progress:65, team:8, tech:'React, Python, TensorFlow, AWS', status:'In Progress', completed:'AI Models, API, Database', pending:'Testing, Deployment', employees:'Rajesh, Vikram, Neha, Rahul' },
+    { id:2, name:'E-Commerce Mobile App', client:'ShopEasy Retail', location:'India', budget:'?12,00,000', start:'Feb 2025', end:'Aug 2025', progress:80, team:5, tech:'React Native, Node.js, MongoDB', status:'In Progress', completed:'UI/UX, API, Payment', pending:'Testing', employees:'Amit, Tarun' },
+    { id:3, name:'Healthcare System', client:'City Hospital', location:'India', budget:'?18,00,000', start:'Mar 2025', end:'Dec 2025', progress:35, team:6, tech:'Angular, Spring Boot, MySQL', status:'In Progress', completed:'Requirements, Design', pending:'Development', employees:'Sneha, Manoj' },
+    { id:4, name:'Smart Inventory', client:'Retail Corp', location:'India', budget:'?8,00,000', start:'Apr 2025', end:'Sep 2025', progress:20, team:4, tech:'Django, React, PostgreSQL', status:'Planning', completed:'Analysis', pending:'Development', employees:'Kunal, Aditi' },
+    { id:5, name:'Video Analytics', client:'Security Solutions', location:'International', budget:'?35,00,000', start:'Jan 2025', end:'Jun 2026', progress:45, team:10, tech:'Python, OpenCV, TensorFlow', status:'In Progress', completed:'Research, Models', pending:'Integration', employees:'Rahul, Deepak' },
+    { id:6, name:'Chatbot Assistant', client:'Customer Care', location:'India', budget:'?6,00,000', start:'May 2025', end:'Oct 2025', progress:25, team:3, tech:'Python, NLP, Dialogflow', status:'Planning', completed:'Design', pending:'Development', employees:'Tanvi' },
+    { id:7, name:'Blockchain Wallet', client:'Crypto Bank', location:'International', budget:'?30,00,000', start:'Feb 2025', end:'Feb 2026', progress:55, team:7, tech:'Solidity, Node.js, React', status:'In Progress', completed:'Smart Contracts', pending:'Integration', employees:'Alok, Rohit' },
+    { id:8, name:'HR Management', client:'Internal', location:'India', budget:'?10,00,000', start:'Mar 2025', end:'Nov 2025', progress:40, team:5, tech:'Java, Spring, React', status:'In Progress', completed:'Requirements, API', pending:'Frontend', employees:'Priya, Komal' },
+    { id:9, name:'IoT Dashboard', client:'Smart Home', location:'International', budget:'?22,00,000', start:'Jan 2025', end:'Dec 2025', progress:60, team:6, tech:'Python, MQTT, React', status:'In Progress', completed:'Design, API', pending:'Dashboard', employees:'Gaurav, Neeraj' },
   ];
-
-  return (
-    <div>
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="text-4xl font-bold gradient-text">Projects</h1>
-        <p className="text-gray-400 mt-2">Track project progress</p>
-      </motion.div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((project, idx) => (
-          <motion.div key={project.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }} className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-            <h3 className="text-xl font-semibold text-white mb-2">{project.name}</h3>
-            <p className="text-gray-400 text-sm mb-2">{project.client}</p>
-            <div className="space-y-2 text-sm"><div className="flex items-center text-gray-300"><Rocket className="w-4 h-4 mr-2" />Budget: {project.budget}</div><div className="flex items-center text-gray-300"><Calendar className="w-4 h-4 mr-2" />{project.location}</div></div>
-            <div className="mt-3"><div className="flex justify-between text-sm mb-1"><span className="text-gray-400">Progress</span><span className="text-white">{project.progress}%</span></div><div className="w-full bg-gray-700 rounded-full h-2"><div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full h-2" style={{ width: `${project.progress}%` }}></div></div></div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export default withAuth(Projects);
+  return (<div><h1 className="text-2xl font-bold text-white mb-1">?? Projects</h1><p className="text-gray-400 text-sm mb-4">Total: {projects.length} | International: {projects.filter(p=>p.location==='International').length} | India: {projects.filter(p=>p.location==='India').length}</p>
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">{projects.map(p => (<div key={p.id} onClick={()=>setSelected(p)} className="glass-card p-4 cursor-pointer hover:scale-102 transition"><div className="flex justify-between"><h3 className="text-white font-semibold">{p.name}</h3><span className={`text-xs px-2 py-0.5 rounded ${p.location==='International'?'bg-purple-500/20 text-purple-400':'bg-green-500/20 text-green-400'}`}>{p.location}</span></div><p className="text-xs text-gray-400">{p.client}</p><div className="mt-2"><div className="flex justify-between text-xs"><span>Progress</span><span>{p.progress}%</span></div><div className="w-full bg-gray-700 rounded-full h-1.5 mt-1"><div className="bg-purple-500 rounded-full h-1.5" style={{width:`${p.progress}%`}}></div></div></div><div className="mt-2 text-xs text-gray-400 flex justify-between"><span><Users className="w-3 h-3 inline"/> {p.team}</span><span><Calendar className="w-3 h-3 inline"/> {p.start}</span><span><Rocket className="w-3 h-3 inline"/> {p.budget}</span></div></div>))}</div>
+  {selected && (<div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 overflow-y-auto" onClick={()=>setSelected(null)}><div className="glass-card p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto" onClick={e=>e.stopPropagation()}><h2 className="text-xl font-bold text-white">{selected.name}</h2><div className="grid grid-cols-2 gap-3 mt-4 text-sm"><div><span className="text-gray-400">Client:</span> {selected.client}</div><div><span className="text-gray-400">Location:</span> {selected.location}</div><div><span className="text-gray-400">Budget:</span> {selected.budget}</div><div><span className="text-gray-400">Timeline:</span> {selected.start} - {selected.end}</div><div><span className="text-gray-400">Team:</span> {selected.team} members</div><div><span className="text-gray-400">Status:</span> {selected.status}</div></div><div className="mt-4"><h3 className="text-white font-semibold">Tech Stack</h3><div className="bg-white/10 rounded-lg p-2 text-sm text-gray-300 mt-1">{selected.tech}</div></div><div className="mt-4"><h3 className="text-white font-semibold">Team Members</h3><div className="flex flex-wrap gap-2 mt-1">{selected.employees.split(',').map(emp=><span key={emp} className="bg-purple-500/20 text-purple-400 px-2 py-1 rounded text-xs">{emp.trim()}</span>)}</div></div><div className="mt-4"><h3 className="text-white font-semibold">Progress: {selected.progress}%</h3><div className="w-full bg-gray-700 rounded-full h-2 mt-1"><div className="bg-purple-500 rounded-full h-2" style={{width:`${selected.progress}%`}}></div></div></div><div className="grid grid-cols-2 gap-4 mt-4"><div><h4 className="text-green-400">? Completed</h4><p className="text-xs text-gray-300">{selected.completed}</p></div><div><h4 className="text-yellow-400">? Pending</h4><p className="text-xs text-gray-300">{selected.pending}</p></div></div><button onClick={()=>setSelected(null)} className="mt-5 w-full bg-purple-600 py-2 rounded-lg">Close</button></div></div>)}</div>);}
 Projects.getLayout = (page) => <Layout>{page}</Layout>;

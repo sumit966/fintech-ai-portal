@@ -1,33 +1,8 @@
-import { withAuth } from '../utils/withAuth';
-import Layout from '../components/Layout';
-import { motion } from 'framer-motion';
-import { Server, Cpu, HardDrive } from 'lucide-react';
-
-function VirtualMachines() {
-  const vms = [
-    { id: 1, name: 'Web Server-01', status: 'Running', cpu: '45%', ram: '8GB/16GB', disk: '120GB/250GB' },
-    { id: 2, name: 'Database Server', status: 'Running', cpu: '32%', ram: '12GB/32GB', disk: '450GB/1TB' },
-    { id: 3, name: 'Dev Environment', status: 'Running', cpu: '15%', ram: '4GB/8GB', disk: '80GB/120GB' },
-  ];
-
-  return (
-    <div>
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="text-4xl font-bold gradient-text">Virtual Machines</h1>
-        <p className="text-gray-400 mt-2">Manage your VM infrastructure</p>
-      </motion.div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {vms.map((vm, idx) => (
-          <motion.div key={vm.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }} className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-            <div className="flex items-center space-x-3 mb-4"><Server className="w-8 h-8 text-green-400" /><h3 className="text-xl font-semibold text-white">{vm.name}</h3></div>
-            <div className="space-y-2 text-sm"><div className="flex items-center text-gray-300"><Cpu className="w-4 h-4 mr-2" />CPU: {vm.cpu}</div><div className="flex items-center text-gray-300"><HardDrive className="w-4 h-4 mr-2" />RAM: {vm.ram}</div><div className="text-gray-300">Disk: {vm.disk}</div></div>
-            <span className="inline-block mt-3 text-xs px-2 py-1 bg-green-500/20 text-green-400 rounded">{vm.status}</span>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export default withAuth(VirtualMachines);
+import Layout from "../components/Layout";
+import { Server, Cpu, HardDrive, Power } from "lucide-react";
+import { useState } from "react";
+export default function VirtualMachines() {
+  const [vms, setVms] = useState([{ id:1,name:"Web Server",status:"Running",cpu:"45%",ram:"8GB/16GB",disk:"120GB/250GB",ip:"10.0.1.10",os:"Ubuntu"},{id:2,name:"DB Server",status:"Running",cpu:"32%",ram:"12GB/32GB",disk:"450GB/1TB",ip:"10.0.1.20",os:"CentOS"},{id:3,name:"Dev Env",status:"Running",cpu:"15%",ram:"4GB/8GB",disk:"80GB/120GB",ip:"10.0.2.30",os:"Ubuntu"},{id:4,name:"Testing",status:"Stopped",cpu:"0%",ram:"0GB/16GB",disk:"60GB/200GB",ip:"10.0.2.40",os:"Windows"},{id:5,name:"Backup",status:"Running",cpu:"12%",ram:"6GB/16GB",disk:"800GB/2TB",ip:"10.0.1.50",os:"Ubuntu"},{id:6,name:"AI Training",status:"Running",cpu:"89%",ram:"28GB/64GB",disk:"350GB/500GB",ip:"10.0.3.60",os:"Ubuntu"}]);
+  const toggle = (id) => setVms(vms.map(v => v.id===id ? {...v, status:v.status==="Running"?"Stopped":"Running"} : v));
+  return (<div><h1 className="text-2xl font-bold text-white mb-1">Virtual Machines</h1><div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">{vms.map(v=>(<div key={v.id} className="glass-card p-4"><div className="flex justify-between"><Server className={`w-5 h-5 ${v.status==="Running"?"text-green-400":"text-red-400"}`}/><span className={`text-xs px-2 py-0.5 rounded ${v.status==="Running"?"bg-green-500/20 text-green-400":"bg-red-500/20 text-red-400"}`}>{v.status}</span></div><h3 className="text-white font-semibold mt-2">{v.name}</h3><div className="mt-2 text-xs"><div><Cpu className="w-3 h-3 inline mr-1"/>CPU: {v.cpu}</div><div><HardDrive className="w-3 h-3 inline mr-1"/>RAM: {v.ram}</div><div className="text-gray-400">Disk: {v.disk}</div><div className="text-gray-500">IP: {v.ip} | {v.os}</div></div><button onClick={()=>toggle(v.id)} className={`mt-3 w-full py-1.5 rounded-lg text-xs ${v.status==="Running"?"bg-red-500/20 text-red-400":"bg-green-500/20 text-green-400"}`}><Power className="w-3 h-3 inline mr-1"/>{v.status==="Running"?"Stop":"Start"}</button></div>))}</div></div>);}
 VirtualMachines.getLayout = (page) => <Layout>{page}</Layout>;

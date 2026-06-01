@@ -1,22 +1,7 @@
-import { withAuth } from '../utils/withAuth';
-import Layout from '../components/Layout';
-import { motion } from 'framer-motion';
-
-function gpumonitoring() {
-  return (
-    <div>
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="text-4xl font-bold gradient-text"></h1>
-        <p className="text-gray-400 mt-2">Enterprise  dashboard</p>
-      </motion.div>
-      <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-12 border border-white/20 text-center">
-        <div className="text-6xl mb-4">??</div>
-        <h2 className="text-2xl font-semibold text-white mb-2">Coming Soon</h2>
-        <p className="text-gray-400">Advanced analytics for  is being prepared</p>
-      </div>
-    </div>
-  );
-}
-
-export default withAuth(gpumonitoring);
-gpumonitoring.getLayout = (page) => <Layout>{page}</Layout>;
+import Layout from "../components/Layout";
+import { Cpu, Activity, Thermometer, HardDrive, Zap } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+export default function GpuMonitoring() {
+  const data = [{ time:"10:00", usage:45, temp:62 },{ time:"11:00", usage:62, temp:68 },{ time:"12:00", usage:78, temp:72 },{ time:"13:00", usage:87, temp:75 },{ time:"14:00", usage:92, temp:78 },{ time:"15:00", usage:85, temp:76 }];
+  return (<div><h1 className="text-2xl font-bold text-white mb-1">GPU Monitoring</h1><div className="grid grid-cols-4 gap-4 mb-6"><div className="glass-card p-4"><Cpu className="w-5 h-5 text-purple-400"/><div className="text-2xl text-white">87%</div><div className="text-xs text-gray-400">Utilization</div></div><div className="glass-card p-4"><Thermometer className="w-5 h-5 text-red-400"/><div className="text-2xl text-white">72?C</div><div className="text-xs text-gray-400">Temperature</div></div><div className="glass-card p-4"><HardDrive className="w-5 h-5 text-blue-400"/><div className="text-2xl text-white">24.6GB</div><div className="text-xs text-gray-400">Memory</div></div><div className="glass-card p-4"><Zap className="w-5 h-5 text-yellow-400"/><div className="text-2xl text-white">892W</div><div className="text-xs text-gray-400">Power</div></div></div><div className="glass-card p-5"><h2 className="text-white mb-4">Performance Trend</h2><ResponsiveContainer width="100%" height={300}><LineChart data={data}><CartesianGrid stroke="#374151"/><XAxis dataKey="time"/><YAxis/><Tooltip/><Line type="monotone" dataKey="usage" stroke="#8B5CF6" strokeWidth={2} name="Usage %"/><Line type="monotone" dataKey="temp" stroke="#EF4444" strokeWidth={2} name="Temp ?C"/></LineChart></ResponsiveContainer></div></div>);}
+GpuMonitoring.getLayout = (page) => <Layout>{page}</Layout>;

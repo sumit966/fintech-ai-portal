@@ -1,22 +1,6 @@
-import { withAuth } from '../utils/withAuth';
-import Layout from '../components/Layout';
-import { motion } from 'framer-motion';
-
-function datasets() {
-  return (
-    <div>
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="text-4xl font-bold gradient-text"></h1>
-        <p className="text-gray-400 mt-2">Enterprise  dashboard</p>
-      </motion.div>
-      <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-12 border border-white/20 text-center">
-        <div className="text-6xl mb-4">??</div>
-        <h2 className="text-2xl font-semibold text-white mb-2">Coming Soon</h2>
-        <p className="text-gray-400">Advanced analytics for  is being prepared</p>
-      </div>
-    </div>
-  );
-}
-
-export default withAuth(datasets);
-datasets.getLayout = (page) => <Layout>{page}</Layout>;
+import Layout from "../components/Layout";
+import { Database, TrendingUp, Shield } from "lucide-react";
+export default function Datasets() {
+  return (<div><h1 className="text-2xl font-bold text-white mb-1">Datasets</h1><div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"><div className="glass-card p-4 text-center"><Database className="w-6 h-6 text-purple-400 mx-auto"/><div className="text-2xl text-white">25</div><div className="text-xs text-gray-400">Datasets</div></div><div className="glass-card p-4 text-center"><TrendingUp className="w-6 h-6 text-green-400 mx-auto"/><div className="text-2xl text-white">5.2TB</div><div className="text-xs text-gray-400">Total Size</div></div><div className="glass-card p-4 text-center"><Shield className="w-6 h-6 text-blue-400 mx-auto"/><div className="text-2xl text-white">99.9%</div><div className="text-xs text-gray-400">Data Quality</div></div></div>
+  <div className="glass-card p-5"><h2 className="text-white mb-4">Top Datasets</h2><div className="space-y-2"><div className="flex justify-between p-2"><span className="text-white">Financial Transactions 2025</span><span className="text-gray-400">2.1TB</span></div><div className="flex justify-between p-2"><span className="text-white">Customer Behavior Data</span><span className="text-gray-400">1.5TB</span></div><div className="flex justify-between p-2"><span className="text-white">Market Trends Dataset</span><span className="text-gray-400">800GB</span></div></div></div></div>);}
+Datasets.getLayout = (page) => <Layout>{page}</Layout>;

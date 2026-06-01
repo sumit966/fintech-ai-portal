@@ -1,35 +1,61 @@
-import { withAuth } from '../utils/withAuth';
+import { useState } from 'react';
 import Layout from '../components/Layout';
-import { motion } from 'framer-motion';
-import { Users, MapPin, Briefcase } from 'lucide-react';
+import { Users, Search, MapPin, Calendar, Briefcase, Mail, Phone, Award, DollarSign, Eye } from 'lucide-react';
 
-function Employees() {
+export default function Employees() {
+  const [search, setSearch] = useState('');
+  const [selected, setSelected] = useState(null);
+  
   const employees = [
-    { id: 1, name: 'Rajesh Kumar', position: 'Senior Software Engineer', department: 'Engineering', location: 'India', experience: '8 years' },
-    { id: 2, name: 'Priya Sharma', position: 'HR Manager', department: 'Human Resources', location: 'India', experience: '10 years' },
-    { id: 3, name: 'Amit Patel', position: 'Frontend Developer', department: 'Engineering', location: 'India', experience: '2 years' },
+    { id:1, name:'Sumit Raj', role:'CEO & Founder', dept:'Leadership', email:'sumit@fintechai.com', phone:'9876543200', doj:'2025-01-01', exp:'10 years', salary:300000, status:'Active', location:'Bangalore', skills:['Leadership','Strategy','AI'], education:'B.Tech, MBA' },
+    { id:2, name:'Rajesh Kumar', role:'Senior Software Engineer', dept:'Engineering', email:'rajesh@fintechai.com', phone:'9876543210', doj:'2025-01-15', exp:'8 years', salary:150000, status:'Active', location:'Bangalore', skills:['React','Node.js','Python','AWS'], education:'B.Tech IIT Delhi' },
+    { id:3, name:'Priya Sharma', role:'HR Manager', dept:'HR', email:'priya@fintechai.com', phone:'9876543211', doj:'2025-02-10', exp:'10 years', salary:120000, status:'Active', location:'Mumbai', skills:['Recruitment','Employee Relations','HR Policies'], education:'MBA HR' },
+    { id:4, name:'Amit Patel', role:'Frontend Developer', dept:'Engineering', email:'amit@fintechai.com', phone:'9876543212', doj:'2025-06-20', exp:'2 years', salary:45000, status:'Active', location:'Ahmedabad', skills:['React','Tailwind','JavaScript'], education:'BCA' },
+    { id:5, name:'Sneha Reddy', role:'Product Manager', dept:'Product', email:'sneha@fintechai.com', phone:'9876543213', doj:'2025-03-05', exp:'6 years', salary:180000, status:'Active', location:'Hyderabad', skills:['Product Strategy','Agile','Market Research'], education:'MBA IIM' },
+    { id:6, name:'Vikram Singh', role:'Backend Developer', dept:'Engineering', email:'vikram@fintechai.com', phone:'9876543214', doj:'2025-07-01', exp:'4 years', salary:60000, status:'Active', location:'Jaipur', skills:['Java','Spring Boot','MySQL'], education:'B.Tech' },
+    { id:7, name:'Neha Gupta', role:'UI/UX Designer', dept:'Design', email:'neha@fintechai.com', phone:'9876543215', doj:'2025-04-12', exp:'5 years', salary:85000, status:'Active', location:'Pune', skills:['Figma','Adobe XD','User Research'], education:'B.Des' },
+    { id:8, name:'Rahul Verma', role:'DevOps Engineer', dept:'Engineering', email:'rahul@fintechai.com', phone:'9876543216', doj:'2025-05-20', exp:'7 years', salary:140000, status:'Active', location:'Bangalore', skills:['AWS','Docker','Kubernetes'], education:'B.Tech' },
+    { id:9, name:'Pooja Mehta', role:'QA Engineer', dept:'Quality', email:'pooja@fintechai.com', phone:'9876543217', doj:'2025-08-10', exp:'3 years', salary:40000, status:'Active', location:'Mumbai', skills:['Selenium','Manual Testing','JIRA'], education:'BCA' },
+    { id:10, name:'Kunal Joshi', role:'Data Scientist', dept:'Data Science', email:'kunal@fintechai.com', phone:'9876543218', doj:'2025-06-15', exp:'4 years', salary:130000, status:'Active', location:'Pune', skills:['Python','TensorFlow','ML'], education:'M.Sc Data Science' },
+    { id:11, name:'Divya Nair', role:'Technical Writer', dept:'Documentation', email:'divya@fintechai.com', phone:'9876543219', doj:'2025-09-05', exp:'3 years', salary:35000, status:'Active', location:'Chennai', skills:['Technical Writing','Documentation'], education:'BA English' },
+    { id:12, name:'Arjun Kumar', role:'Fresher Trainee', dept:'Engineering', email:'arjun@fintechai.com', phone:'9876543220', doj:'2025-10-01', exp:'0 years', salary:25000, status:'Probation', location:'Delhi', skills:['Learning Java'], education:'B.Tech Fresher' },
+    { id:13, name:'Kavita Singh', role:'Fresher Trainee', dept:'HR', email:'kavita@fintechai.com', phone:'9876543221', doj:'2025-10-01', exp:'0 years', salary:25000, status:'Probation', location:'Lucknow', skills:['HR Basics'], education:'MBA Fresher' },
+    { id:14, name:'Rohit Sharma', role:'Senior DevOps', dept:'Engineering', email:'rohit@fintechai.com', phone:'9876543222', doj:'2025-03-20', exp:'9 years', salary:160000, status:'Active', location:'Bangalore', skills:['AWS','Terraform','K8s'], education:'B.Tech' },
+    { id:15, name:'Anjali Desai', role:'Marketing Manager', dept:'Marketing', email:'anjali@fintechai.com', phone:'9876543223', doj:'2025-04-15', exp:'8 years', salary:120000, status:'Active', location:'Mumbai', skills:['Digital Marketing','SEO'], education:'MBA Marketing' },
+    { id:16, name:'Suresh Yadav', role:'System Admin', dept:'IT', email:'suresh@fintechai.com', phone:'9876543224', doj:'2025-05-10', exp:'6 years', salary:80000, status:'Active', location:'Noida', skills:['Linux','Networking'], education:'BCA' },
+    { id:17, name:'Monica Kapoor', role:'Finance Manager', dept:'Finance', email:'monica@fintechai.com', phone:'9876543225', doj:'2025-04-05', exp:'11 years', salary:150000, status:'Active', location:'Delhi', skills:['Accounting','Taxation'], education:'CA' },
+    { id:18, name:'Tarun Malhotra', role:'Mobile Developer', dept:'Engineering', email:'tarun@fintechai.com', phone:'9876543226', doj:'2025-08-10', exp:'5 years', salary:70000, status:'Active', location:'Chandigarh', skills:['React Native','Flutter'], education:'B.Tech' },
+    { id:19, name:'Shreya Jain', role:'Content Strategist', dept:'Marketing', email:'shreya@fintechai.com', phone:'9876543227', doj:'2025-09-15', exp:'4 years', salary:45000, status:'Active', location:'Indore', skills:['Content Writing','SEO'], education:'BJMC' },
+    { id:20, name:'Deepak Saxena', role:'Security Analyst', dept:'Security', email:'deepak@fintechai.com', phone:'9876543228', doj:'2025-07-20', exp:'6 years', salary:110000, status:'Active', location:'Bangalore', skills:['Cyber Security','Penetration Testing'], education:'M.Tech' },
+    { id:21, name:'Ritu Agarwal', role:'Business Analyst', dept:'Product', email:'ritu@fintechai.com', phone:'9876543229', doj:'2025-08-01', exp:'5 years', salary:100000, status:'Active', location:'Gurgaon', skills:['Business Analysis','BRD'], education:'MBA' },
+    { id:22, name:'Nikhil Bansal', role:'Fresher Developer', dept:'Engineering', email:'nikhil@fintechai.com', phone:'9876543230', doj:'2025-10-15', exp:'0 years', salary:28000, status:'Probation', location:'Jaipur', skills:['Learning Java'], education:'B.Tech Fresher' },
+    { id:23, name:'Pallavi Kulkarni', role:'HR Recruiter', dept:'HR', email:'pallavi@fintechai.com', phone:'9876543231', doj:'2025-09-20', exp:'3 years', salary:40000, status:'Active', location:'Pune', skills:['Recruitment'], education:'MBA HR' },
+    { id:24, name:'Manoj Singh', role:'Database Admin', dept:'Engineering', email:'manoj@fintechai.com', phone:'9876543232', doj:'2025-07-10', exp:'7 years', salary:120000, status:'Active', location:'Lucknow', skills:['MySQL','PostgreSQL'], education:'B.Tech' },
+    { id:25, name:'Swati Choudhary', role:'Tech Lead', dept:'Engineering', email:'swati@fintechai.com', phone:'9876543233', doj:'2025-02-01', exp:'9 years', salary:180000, status:'Active', location:'Bangalore', skills:['System Design','Architecture'], education:'M.Tech' },
+    { id:26, name:'Vivek Bhatia', role:'Fresher QA', dept:'Quality', email:'vivek@fintechai.com', phone:'9876543234', doj:'2025-11-01', exp:'0 years', salary:25000, status:'Probation', location:'Chandigarh', skills:['Learning Testing'], education:'BCA Fresher' },
+    { id:27, name:'Neeraj Singh', role:'Sr Product Manager', dept:'Product', email:'neeraj@fintechai.com', phone:'9876543235', doj:'2025-03-10', exp:'10 years', salary:200000, status:'Active', location:'Mumbai', skills:['Product Strategy','Roadmap'], education:'MBA IIM' },
+    { id:28, name:'Karishma Shah', role:'UX Researcher', dept:'Design', email:'karishma@fintechai.com', phone:'9876543236', doj:'2025-10-20', exp:'4 years', salary:55000, status:'Active', location:'Ahmedabad', skills:['User Research','Usability'], education:'M.Des' },
+    { id:29, name:'Alok Mishra', role:'Blockchain Dev', dept:'Engineering', email:'alok@fintechai.com', phone:'9876543237', doj:'2025-08-05', exp:'3 years', salary:85000, status:'Active', location:'Bangalore', skills:['Solidity','Web3'], education:'B.Tech' },
+    { id:30, name:'Meera Iyer', role:'Data Engineer', dept:'Data Science', email:'meera@fintechai.com', phone:'9876543238', doj:'2025-07-01', exp:'5 years', salary:120000, status:'Active', location:'Chennai', skills:['ETL','Spark'], education:'B.Tech' },
   ];
+
+  const filtered = employees.filter(e => e.name.toLowerCase().includes(search.toLowerCase()) || e.role.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div>
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="text-4xl font-bold gradient-text">Employees</h1>
-        <p className="text-gray-400 mt-2">Manage your workforce</p>
-      </motion.div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {employees.map((emp, idx) => (
-          <motion.div key={emp.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }} className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-            <div className="flex items-center space-x-4 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center"><Users className="w-6 h-6 text-white" /></div>
-              <div><h3 className="text-lg font-semibold text-white">{emp.name}</h3><p className="text-sm text-gray-400">{emp.position}</p></div>
-            </div>
-            <div className="space-y-2 text-sm"><div className="flex items-center text-gray-300"><Briefcase className="w-4 h-4 mr-2" />{emp.department}</div><div className="flex items-center text-gray-300"><MapPin className="w-4 h-4 mr-2" />{emp.location}</div><div className="text-gray-300">Experience: {emp.experience}</div></div>
-          </motion.div>
+      <div className="mb-4"><h1 className="text-2xl font-bold text-white mb-1">?? Employees Directory</h1><p className="text-gray-400 text-sm">Total: {employees.length} | Active: {employees.filter(e=>e.status==='Active').length} | Led by: Sumit Raj (CEO)</p></div>
+      <div className="relative mb-4"><Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search by name or role..." className="w-full bg-white/10 rounded-lg pl-9 pr-4 py-2 text-white"/></div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {filtered.map(emp => (
+          <div key={emp.id} onClick={()=>setSelected(emp)} className="glass-card p-4 cursor-pointer hover:scale-102 transition">
+            <div className="flex items-start justify-between"><div className="flex items-center space-x-3"><div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center"><Users className="w-5 h-5 text-white"/></div><div><div className="text-white font-medium">{emp.name}</div><div className="text-xs text-gray-400">{emp.role}</div></div></div><span className={`text-xs px-2 py-0.5 rounded ${emp.status==='Active'?'bg-green-500/20 text-green-400':'bg-yellow-500/20 text-yellow-400'}`}>{emp.status}</span></div>
+            <div className="mt-3 text-xs text-gray-400 grid grid-cols-2 gap-1"><div><Briefcase className="w-3 h-3 inline mr-1"/>{emp.dept}</div><div><MapPin className="w-3 h-3 inline mr-1"/>{emp.location}</div><div><Calendar className="w-3 h-3 inline mr-1"/>{emp.doj}</div><div><Mail className="w-3 h-3 inline mr-1"/>{emp.email.split('@')[0]}</div></div>
+            <div className="mt-2 text-green-400">?{emp.salary.toLocaleString()}/month</div>
+          </div>
         ))}
       </div>
+      {selected && (<div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50" onClick={()=>setSelected(null)}><div className="glass-card p-6 max-w-2xl w-full" onClick={e=>e.stopPropagation()}><div className="flex justify-between"><h2 className="text-2xl font-bold text-white">{selected.name}</h2><button onClick={()=>setSelected(null)} className="text-gray-400 text-2xl">?</button></div><div className="grid grid-cols-2 gap-4 mt-4"><div><span className="text-gray-400">Role:</span><span className="text-white ml-2">{selected.role}</span></div><div><span className="text-gray-400">Department:</span><span className="text-white ml-2">{selected.dept}</span></div><div><span className="text-gray-400">Email:</span><span className="text-white ml-2">{selected.email}</span></div><div><span className="text-gray-400">Phone:</span><span className="text-white ml-2">{selected.phone}</span></div><div><span className="text-gray-400">DOJ:</span><span className="text-white ml-2">{selected.doj}</span></div><div><span className="text-gray-400">Experience:</span><span className="text-white ml-2">{selected.exp}</span></div><div><span className="text-gray-400">Salary:</span><span className="text-green-400 ml-2">?{selected.salary.toLocaleString()}/month</span></div><div><span className="text-gray-400">Education:</span><span className="text-white ml-2">{selected.education}</span></div></div><div className="mt-4"><h3 className="text-white font-semibold">Skills</h3><div className="flex flex-wrap gap-2 mt-2">{selected.skills.map(s=><span key={s} className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">{s}</span>)}</div></div><button onClick={()=>setSelected(null)} className="mt-5 w-full bg-purple-600 py-2 rounded-lg">Close</button></div></div>)}
     </div>
   );
 }
-
-export default withAuth(Employees);
 Employees.getLayout = (page) => <Layout>{page}</Layout>;

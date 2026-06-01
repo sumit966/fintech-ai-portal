@@ -1,22 +1,7 @@
-import { withAuth } from '../utils/withAuth';
-import Layout from '../components/Layout';
-import { motion } from 'framer-motion';
-
-function trainingjobs() {
-  return (
-    <div>
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="text-4xl font-bold gradient-text"></h1>
-        <p className="text-gray-400 mt-2">Enterprise  dashboard</p>
-      </motion.div>
-      <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-12 border border-white/20 text-center">
-        <div className="text-6xl mb-4">??</div>
-        <h2 className="text-2xl font-semibold text-white mb-2">Coming Soon</h2>
-        <p className="text-gray-400">Advanced analytics for  is being prepared</p>
-      </div>
-    </div>
-  );
-}
-
-export default withAuth(trainingjobs);
-trainingjobs.getLayout = (page) => <Layout>{page}</Layout>;
+import Layout from "../components/Layout";
+import { TrendingUp, Users, CheckCircle, Briefcase } from "lucide-react";
+export default function TrainingJobs() {
+  const trainings = [{ name:"AWS Cloud Certification", participants:25, progress:75, status:"Active" },{ name:"Python Advanced", participants:18, progress:60, status:"Active" },{ name:"Leadership Training", participants:12, progress:40, status:"Active" }];
+  return (<div><h1 className="text-2xl font-bold text-white mb-1">Training Jobs</h1><div className="grid grid-cols-4 gap-4 mb-6"><div className="glass-card p-4 text-center"><TrendingUp className="w-6 h-6 text-green-400"/><div className="text-2xl text-white">3</div><div className="text-xs text-gray-400">Active</div></div><div className="glass-card p-4 text-center"><CheckCircle className="w-6 h-6 text-blue-400"/><div className="text-2xl text-white">45</div><div className="text-xs text-gray-400">Completed</div></div><div className="glass-card p-4 text-center"><Users className="w-6 h-6 text-purple-400"/><div className="text-2xl text-white">85</div><div className="text-xs text-gray-400">Trained</div></div><div className="glass-card p-4 text-center"><Briefcase className="w-6 h-6 text-yellow-400"/><div className="text-2xl text-white">6</div><div className="text-xs text-gray-400">Open Jobs</div></div></div>
+  <div className="glass-card p-5"><h2 className="text-white mb-4">Active Trainings</h2>{trainings.map(t=>(<div key={t.name} className="p-3 bg-white/5 rounded-lg mb-3"><div className="flex justify-between"><h3 className="text-white">{t.name}</h3><span className="text-green-400 text-xs">{t.status}</span></div><div className="mt-2"><div className="flex justify-between text-xs"><span>Progress</span><span>{t.progress}%</span></div><div className="w-full bg-gray-700 rounded-full h-1.5"><div className="bg-purple-500 rounded-full h-1.5" style={{width:`${t.progress}%`}}></div></div></div><div className="text-xs text-gray-400 mt-1">Participants: {t.participants}</div></div>))}</div></div>);}
+TrainingJobs.getLayout = (page) => <Layout>{page}</Layout>;

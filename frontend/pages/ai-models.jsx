@@ -1,22 +1,6 @@
-import { withAuth } from '../utils/withAuth';
-import Layout from '../components/Layout';
-import { motion } from 'framer-motion';
-
-function aimodels() {
-  return (
-    <div>
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="text-4xl font-bold gradient-text"></h1>
-        <p className="text-gray-400 mt-2">Enterprise  dashboard</p>
-      </motion.div>
-      <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-12 border border-white/20 text-center">
-        <div className="text-6xl mb-4">??</div>
-        <h2 className="text-2xl font-semibold text-white mb-2">Coming Soon</h2>
-        <p className="text-gray-400">Advanced analytics for  is being prepared</p>
-      </div>
-    </div>
-  );
-}
-
-export default withAuth(aimodels);
-aimodels.getLayout = (page) => <Layout>{page}</Layout>;
+import Layout from "../components/Layout";
+import { Brain, TrendingUp, CheckCircle } from "lucide-react";
+export default function AiModels() {
+  const models = [{ name:"GPT-4 FinTech", type:"LLM", accuracy:"94%", status:"Deployed", version:"2.0" },{ name:"Fraud Detection", type:"Classification", accuracy:"98%", status:"Active", version:"1.5" },{ name:"Stock Predictor", type:"Time Series", accuracy:"87%", status:"Training", version:"3.1" },{ name:"Risk Analyzer", type:"Analytics", accuracy:"96%", status:"Deployed", version:"2.2" }];
+  return (<div><h1 className="text-2xl font-bold text-white mb-1">AI Models</h1><div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">{models.map(m=>(<div key={m.name} className="glass-card p-4"><Brain className="w-8 h-8 text-purple-400 mb-2"/><h3 className="text-white font-semibold">{m.name}</h3><p className="text-xs text-gray-400">{m.type}</p><div className="mt-2 flex justify-between"><span className="text-green-400">{m.accuracy}</span><span className="text-xs text-gray-400">{m.status}</span></div></div>))}</div></div>);}
+AiModels.getLayout = (page) => <Layout>{page}</Layout>;

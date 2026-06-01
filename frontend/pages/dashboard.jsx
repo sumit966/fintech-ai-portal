@@ -1,62 +1,38 @@
-﻿import { withAuth } from '../utils/withAuth';
 import Layout from '../components/Layout';
-import { motion } from 'framer-motion';
-import { Activity, Cpu, Users, Cloud, Shield, Zap, CheckCircle } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
+import { Users, Cpu, DollarSign, TrendingUp, Briefcase, Calendar, CheckCircle, Award, Activity } from 'lucide-react';
 
-function Dashboard() {
-  const stats = [
-    { label: 'GPU Utilization', value: '87%', change: '+12%', icon: Cpu, color: 'from-blue-500 to-cyan-500' },
-    { label: 'Active Models', value: '24', change: '+3', icon: Activity, color: 'from-purple-500 to-pink-500' },
-    { label: 'Total Deployments', value: '156', change: '+18%', icon: Cloud, color: 'from-green-500 to-emerald-500' },
-    { label: 'Active Users', value: '1,247', change: '+15%', icon: Users, color: 'from-indigo-500 to-blue-500' },
-    { label: 'System Health', value: '99.9%', change: '+0.1%', icon: Shield, color: 'from-green-500 to-teal-500' },
+export default function Dashboard() {
+  const revenueData = [
+    { month: 'Jan', revenue: 45, expenses: 32 },
+    { month: 'Feb', revenue: 52, expenses: 35 },
+    { month: 'Mar', revenue: 61, expenses: 38 },
+    { month: 'Apr', revenue: 58, expenses: 36 },
+    { month: 'May', revenue: 67, expenses: 41 },
+    { month: 'Jun', revenue: 75, expenses: 45 },
   ];
-
+  const projectStatus = [
+    { name: 'Completed', value: 2, color: '#10B981' },
+    { name: 'In Progress', value: 5, color: '#8B5CF6' },
+    { name: 'Planning', value: 2, color: '#F59E0B' },
+  ];
+  const stats = [
+    { label: 'Employees', value: '50', change: '+12%', icon: Users },
+    { label: 'Projects', value: '9', change: '+2', icon: Briefcase },
+    { label: 'Revenue', value: '?8.2 Cr', change: '+28%', icon: TrendingUp },
+    { label: 'GPU Usage', value: '87%', change: '+12%', icon: Cpu },
+  ];
   return (
     <div>
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="text-4xl font-bold gradient-text">Welcome back, Admin</h1>
-        <p className="text-gray-400 mt-2">Enterprise AI Infrastructure Dashboard</p>
-      </motion.div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-        {stats.map((stat, idx) => {
-          const Icon = stat.icon;
-          return (
-            <motion.div key={idx} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }} whileHover={{ scale: 1.02 }} className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-              <div className="flex items-center justify-between mb-4">
-                <div className={`p-2 bg-gradient-to-br ${stat.color} rounded-lg`}><Icon className="w-5 h-5 text-white" /></div>
-                <span className="text-sm text-green-400">{stat.change}</span>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-1">{stat.value}</h3>
-              <p className="text-sm text-gray-400">{stat.label}</p>
-            </motion.div>
-          );
-        })}
+      <div className="mb-6 flex justify-between items-center">
+        <div><h1 className="text-3xl font-bold text-white mb-1">FinTech AI Portal</h1><p className="text-gray-400">Welcome back, <span className="text-purple-400 font-semibold">Sumit Raj</span> (CEO & Founder)</p></div>
+        <div className="text-right"><div className="text-sm text-gray-400">Founded</div><div className="text-white font-bold">January 2025</div></div>
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-          <h2 className="text-xl font-semibold text-white mb-4 flex items-center"><Activity className="w-5 h-5 mr-2 text-purple-400" />System Status</h2>
-          <div className="space-y-4">
-            <div><div className="flex justify-between mb-1"><span className="text-gray-400">CPU Usage</span><span className="text-white">45%</span></div><div className="w-full bg-gray-700 rounded-full h-2"><div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full h-2" style={{ width: '45%' }}></div></div></div>
-            <div><div className="flex justify-between mb-1"><span className="text-gray-400">Memory Usage</span><span className="text-white">62%</span></div><div className="w-full bg-gray-700 rounded-full h-2"><div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-full h-2" style={{ width: '62%' }}></div></div></div>
-            <div><div className="flex justify-between mb-1"><span className="text-gray-400">Storage</span><span className="text-white">38%</span></div><div className="w-full bg-gray-700 rounded-full h-2"><div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-full h-2" style={{ width: '38%' }}></div></div></div>
-          </div>
-        </div>
-
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-          <h2 className="text-xl font-semibold text-white mb-4 flex items-center"><Zap className="w-5 h-5 mr-2 text-yellow-400" />Recent Activity</h2>
-          <div className="space-y-3">
-            {['New model deployed: GPT-4 v3.0', 'GPU cluster health check completed', 'Training job #2456 completed', 'Security scan completed'].map((activity, idx) => (
-              <div key={idx} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-white/5"><CheckCircle className="w-4 h-4 text-green-400" /><span className="text-sm text-gray-300">{activity}</span></div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <div className="grid grid-cols-4 gap-4 mb-8">{stats.map((s,i)=>{const Icon=s.icon;return(<div key={i} className="glass-card p-4 hover:scale-105 transition"><div className="flex justify-between"><div className="p-2 bg-purple-500/20 rounded-lg"><Icon className="w-4 h-4 text-purple-400"/></div><span className="text-green-400 text-xs">{s.change}</span></div><div className="text-2xl text-white font-bold">{s.value}</div><div className="text-xs text-gray-400">{s.label}</div></div>)})}</div>
+      <div className="grid grid-cols-2 gap-6 mb-6"><div className="glass-card p-4"><h2 className="text-white mb-4">?? Financial Performance 2025</h2><ResponsiveContainer width="100%" height={250}><AreaChart data={revenueData}><CartesianGrid stroke="#374151"/><XAxis dataKey="month" stroke="#9CA3AF"/><YAxis stroke="#9CA3AF"/><Tooltip/><Area type="monotone" dataKey="revenue" stroke="#8B5CF6" fill="#8B5CF6" fillOpacity={0.3} name="Revenue (Lakhs)"/><Area type="monotone" dataKey="expenses" stroke="#EF4444" fill="#EF4444" fillOpacity={0.3} name="Expenses (Lakhs)"/></AreaChart></ResponsiveContainer></div>
+      <div className="glass-card p-4"><h2 className="text-white mb-4">?? Project Status</h2><ResponsiveContainer width="100%" height={250}><PieChart><Pie data={projectStatus} cx="50%" cy="50%" innerRadius={60} outerRadius={100} dataKey="value" label>{projectStatus.map((e,i)=><Cell key={i} fill={e.color}/>)}</Pie><Tooltip/></PieChart></ResponsiveContainer></div></div>
+      <div className="glass-card p-4"><h2 className="text-white mb-3">?? Company Achievements</h2><div className="grid grid-cols-2 gap-2">{['?? Best AI Startup 2025 - FinTech Award','?? 10+ Enterprise Clients Onboarded','?? 5 AI Models Successfully Deployed','?? 200% Revenue Growth YoY','? 4.9/5 Client Satisfaction','?? Expanded to 3 International Markets'].map((a,i)=><div key={i} className="flex items-center text-sm text-gray-300"><CheckCircle className="w-3 h-3 text-green-400 mr-2"/>{a}</div>)}</div></div>
     </div>
   );
 }
-
-export default withAuth(Dashboard);
 Dashboard.getLayout = (page) => <Layout>{page}</Layout>;
