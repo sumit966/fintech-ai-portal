@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState }, FileText, Database from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter }, FileText, Database from 'next/router';
 import { 
   LayoutDashboard, Cpu, Rocket, Users, Wallet, Calendar, Briefcase, Bot, Settings, 
   Server, Activity, Menu, X, Bell, Search, LogOut, DollarSign, GraduationCap, 
   Database, TrendingUp, Box, PieChart, Clock, CheckCircle 
-} from 'lucide-react';
+}, FileText, Database from 'lucide-react';
 
 const menuItems = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -20,6 +20,8 @@ const menuItems = [
   { name: 'Interviews', href: '/interviews', icon: Briefcase },
   { name: 'HRMS', href: '/hrms', icon: Database },
   { name: 'Training Jobs', href: '/training-jobs', icon: TrendingUp },
+    { name: 'Offer Letter', icon: FileText, path: '/offer-letter' },
+  { name: 'SAP Integration', icon: Database, path: '/sap' },
   { name: 'AI Assistant', href: '/ai-assistant', icon: Bot },
   { name: 'Portal', href: '/portal', icon: Box },
   { name: 'Settings', href: '/settings', icon: Settings },
